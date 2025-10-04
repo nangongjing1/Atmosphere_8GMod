@@ -84,7 +84,7 @@ namespace ams::erpt::srv {
         R_ABORT_UNLESS(fs::MountSdCardErrorReportDirectoryForAtmosphere(ReportOnSdStoragePath));
 
         if (g_automatic_report_cleanup_enabled) {
-            constexpr s64 MinimumReportCountForCleanup = 1000;
+            constexpr s64 MinimumReportCountForCleanup = 1000;  //erpt报告的清理阈值
             s64 report_count = MinimumReportCountForCleanup;
 
             fs::DirectoryHandle dir;
