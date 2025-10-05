@@ -1,53 +1,53 @@
 # DNS.mitm
-As of 0.18.0, atmosphère provides a mechanism for redirecting DNS resolution requests.
+自 0.18.0 版本起，atmosphère 提供了一种重定向 DNS 解析请求的机制。
 
-By default, atmosphère redirects resolution requests for official telemetry servers, redirecting them to a loopback address.
+默认情况下，atmosphère 会将官方遥测服务器的解析请求重定向到环回地址。
 
-## Hosts files
+## Hosts 文件
 
-DNS.mitm can be configured through the usage of a slightly-extended `hosts` file format, which is parsed only once on system startup.
+DNS.mitm 可通过使用略微扩展的 `hosts` 文件格式进行配置，该文件仅在系统启动时解析一次。
 
-In particular, hosts files parsed by DNS.mitm have the following extensions to the usual format:
-+ `*` is treated as a wildcard character, matching any collection of 0 or more characters wherever it occurs in a hostname.
-+ `%` is treated as a stand-in for the value of `nsd!environment_identifier`. This is always `lp1`, on production devices.
+具体来说，DNS.mitm 解析的 hosts 文件具有以下扩展特性：
++ `*` 被视为通配符，可匹配主机名中任意位置的 0 个或多个字符
++ `%` 作为 `nsd!environment_identifier` 值的占位符。在生产设备上，该值始终为 `lp1`
 
-If multiple entries in a host file match a domain, the last-defined match is used.
+如果 hosts 文件中有多个条目匹配某个域名，则使用最后定义的匹配项。
 
-Please note that homebrew may trigger a hosts file re-parse by sending the extension IPC command 65000 ("AtmosphereReloadHostsFile") to a connected `sfdnsres` session.
+请注意，自制程序可通过向连接的 `sfdnsres` 会话发送扩展 IPC 命令 65000 ("AtmosphereReloadHostsFile") 来触发 hosts 文件重新解析。
 
-### Hosts file selection
+### Hosts 文件选择
 
-Atmosphère will try to read hosts from the following file paths, in order, stopping once it successfully performs a file read:
+Atmosphère 将按以下顺序尝试读取 hosts 文件，并在成功执行文件读取后停止：
 
-+ (emummc only) `/atmosphere/hosts/emummc_%04lx.txt`, formatted with the emummc's id number (see `emummc.ini`).
-+ (emummc only) `/atmosphere/hosts/emummc.txt`.
-+ (sysmmc only) `/atmosphere/hosts/sysmmc.txt`.
++ (仅 emummc) `/atmosphere/hosts/emummc_%04lx.txt`，格式化为 emummc 的 ID 号（参见 `emummc.ini`）
++ (仅 emummc) `/atmosphere/hosts/emummc.txt`
++ (仅 sysmmc) `/atmosphere/hosts/sysmmc.txt`
 + `/atmosphere/hosts/default.txt`
 
-If `/atmosphere/hosts/default.txt` does not exist, atmosphère will create it to contain the defaults.
+如果 `/atmosphere/hosts/default.txt` 不存在，atmosphère 将创建该文件并包含默认内容。
 
-### Atmosphère defaults
+### Atmosphère 默认设置
 
-By default, atmosphère's default redirections are parsed **in addition to** the contents of the loaded hosts file.
+默认情况下，atmosphère 的默认重定向规则会**附加到**已加载 hosts 文件的内容之后。
 
-This is equivalent to thinking of the loaded hosts file as having the atmosphère defaults prepended to it.
+这相当于将 atmosphère 的默认设置前置到加载的 hosts 文件中。
 
-This setting is considered desirable, because it minimizes the telemetry risks if a user forgets to update a custom hosts file on a system update which changes the telemetry servers.
+此设置被认为是可取的，因为如果用户在系统更新后忘记更新自定义 hosts 文件（而更新更改了遥测服务器），它可以最大限度地减少遥测风险。
 
-This behavior can be opted-out from by setting `atmosphere!add_defaults_to_dns_hosts = u8!0x0` in `system_settings.ini`.
+可以通过在 `system_settings.ini` 中设置 `atmosphere!add_defaults_to_dns_hosts = u8!0x0` 来退出此行为。
 
-The current default redirections are:
+当前的默认重定向规则为：
 
 ```
 # Nintendo telemetry servers
 127.0.0.1 receive-%.dg.srv.nintendo.net receive-%.er.srv.nintendo.net
 ```
 
-## Debugging
+## 调试
 
-On startup (or on hosts file re-parse), DNS.mitm will log both what hosts file it selected and the contents of all redirections it parses to `/atmosphere/logs/dns_mitm_startup.log`.
+在启动时（或重新解析 hosts 文件时），DNS.mitm 会将其选择的 hosts 文件以及解析的所有重定向内容记录到 `/atmosphere/logs/dns_mitm_startup.log`。
 
-In addition, if the user sets `atmosphere!enable_dns_mitm_debug_log = u8!0x1` in `system_settings.ini`, DNS.mitm will log all requests to GetHostByName/GetAddrInfo to `/atmosphere/logs/dns_mitm_debug.log`. All redirections will be noted when they occur.
+此外，如果用户在 `system_settings.ini` 中设置 `atmosphere!enable_dns_mitm_debug_log = u8!0x1`，DNS.mitm 会将所有 GetHostByName/GetAddrInfo 请求记录到 `/atmosphere/logs/dns_mitm_debug.log`。所有重定向发生时都会被记录。
 
-## Opting-out of DNS.mitm entirely
-If you wish to disable DNS.mitm entirely, `system_settings.ini` can be edited to set `atmosphere!enable_dns_mitm = u8!0x0`.
+## 完全退出 DNS.mitm
+如需完全禁用 DNS.mitm，可编辑 `system_settings.ini` 并设置 `atmosphere!enable_dns_mitm = u8!0x0`。

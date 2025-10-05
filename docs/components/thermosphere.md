@@ -1,3 +1,3 @@
 # thermosphère
-thermosphère is a work in progress hypervisor implementation.
-This aims to provide functionality at the EL2 level which remains unused by the Horizon OS.
+thermosphère是一个正在开发中的虚拟机监控程序（hypervisor）实现。
+其目标是在Horizon OS未使用的EL2级别提供功能。

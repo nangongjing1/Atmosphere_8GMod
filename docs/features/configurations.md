@@ -1,67 +1,67 @@
-# Configurations
-Atmosphère provides a variety of customizable configurations to better adjust to users' needs.
+# 配置
+Atmosphère 提供多种可自定义的配置，以更好地适应用户需求。
 
 ## stratosphere.ini
-This is the configuration file used by fusée for configuring user-space system modules.
-This file is located under the `/atmosphere/config/` folder on your SD card and a default template can be found inside the `/atmosphere/config_templates/` folder.
+这是 fusée 用于配置用户空间系统模块的配置文件。
+该文件位于 SD 卡的 `/atmosphere/config/` 文件夹下，默认模板可在 `/atmosphere/config_templates/` 文件夹中找到。
 
-### Configuring "nogc" Protection
-"nogc" is a feature provided by fusée-secondary which disables the Nintendo Switch's Game Card reader. Its purpose is to prevent the reader from being updated when the console has been updated, without burning fuses, from a lower firmware version. More specifically, from firmware versions 4.0.0 or 9.0.0 which introduced updates to the Game Card reader's firmware. By default, Atmosphère will protect the Game Card reader automatically, but you are free to change it.
+### 配置 "nogc" 保护
+"nogc" 是由 fusée-secondary 提供的功能，用于禁用 Nintendo Switch 的游戏卡读取器。其目的是在主机从较低固件版本（特别是 4.0.0 或 9.0.0 固件版本，这些版本引入了游戏卡读取器固件的更新）升级时，防止读取器被更新。默认情况下，Atmosphère 会自动保护游戏卡读取器，但您可以自由更改此设置。
 
-To change its functionality, add the following line to the `stratosphere` section and change the value of `X` according to the following list:
+要更改其功能，请在 `stratosphere` 部分添加以下行，并根据以下列表更改 `X` 的值：
 ```
 [stratosphere]
 nogc = X
 ```
 ```
-1 = force-enable nogc, so Atmosphère will always disable the Game Card reader.
-0 = force-disable nogc, so Atmosphère will always enable the Game Card reader.
+1 = 强制启用 nogc，因此 Atmosphère 将始终禁用游戏卡读取器。
+0 = 强制禁用 nogc，因此 Atmosphère 将始终启用游戏卡读取器。
 ```
 
-## Adding a Custom Boot Splashscreen
-Atmosphère provides its own default splashscreen which is displayed at boot time. However, this can be replaced at will.
+## 添加自定义启动画面
+Atmosphère 提供自己的默认启动画面，在启动时显示。但是，这可以随意替换。
 
-Boot splash screens must be 1280x720 resolution.
+启动画面分辨率必须为 1280x720。
 
-A script can be found inside the source tree (`/utilities/insert_splash_screen.py`) for inserting a custom splash screen into a release binary.
+源代码树中提供了一个脚本 (`/utilities/insert_splash_screen.py`)，用于将自定义启动画面插入到发布版二进制文件中。
 
-To do so, execute the following command on the script:
-`python insert_splash_screen.py <path to your splash screen image> <path to /atmosphere/package3 on your SD card>`
+执行以下命令使用该脚本：
+`python insert_splash_screen.py <自定义启动画面图像路径> <SD卡上/atmosphere/package3的路径>`
 
 ## emummc.ini
-This is the configuration file used for the [emummc](../components/emummc.md) component.
-This file is located under the `/emuMMC/` folder on your SD card.
+这是用于 [emummc](../components/emummc.md) 组件的配置文件。
+该文件位于 SD 卡的 `/emuMMC/` 文件夹下。
 
-Please refer to the project's repository [here](https://github.com/m4xw/emuMMC) for detailed instructions and documentation.
+请参考项目仓库 [此处](https://github.com/m4xw/emuMMC) 获取详细说明和文档。
 
 ## exosphere.ini
-This is the configuration file used by exosphère.
-This file is located in the root of your SD card and a default template can be found inside the `/atmosphere/config_templates/` folder.
+这是 exosphère 使用的配置文件。
+该文件位于 SD 卡根目录，默认模板可在 `/atmosphere/config_templates/` 文件夹中找到。
 
-### Configuring Debugging Modes
-By default, Atmosphère signals to the Horizon kernel that debugging is enabled while leaving usermode debugging disabled, but this can cause undesirable side-effects. If you wish to change this behavior, go to the `exosphere` section and change the value of `X` according to the following list.
+### 配置调试模式
+默认情况下，Atmosphère 向 Horizon 内核发出调试已启用的信号，但禁用用户模式调试，这可能导致不良副作用。如果您希望更改此行为，请转到 `exosphere` 部分，并根据以下列表更改 `X` 的值。
 ```
 [exosphere]
 debugmode = X
 debugmode_user = X
 ```
 ```
-1 = enable
-0 = disable
+1 = 启用
+0 = 禁用
 ```
 
-### Blanking PRODINFO
-Atmosphère provides a way for users to blank their factory installed calibration data (known as PRODINFO) in either emulated or system eMMC environments. You can find more detailed information on this inside the respective template file. Usage of this configuration is not encouraged.
+### 清空 PRODINFO
+Atmosphère 提供了一种方式，允许用户在模拟或系统 eMMC 环境中清空其出厂安装的校准数据（称为 PRODINFO）。您可以在相应的模板文件中找到有关此功能的更详细信息。不建议使用此配置。
 
 ## override_config.ini
-This file is located under the `/atmosphere/config/` folder on your SD card and a default template can be found inside the `/atmosphere/config_templates/` folder.
+该文件位于 SD 卡的 `/atmosphere/config/` 文件夹下，默认模板可在 `/atmosphere/config_templates/` 文件夹中找到。
 
-### Overrides Format
-Overrides are parsed from the `/atmosphere/config/override_config.ini` file during the boot process.
+### 覆盖格式
+覆盖配置在启动过程中从 `/atmosphere/config/override_config.ini` 文件解析。
 
-By default `override_config.ini` is not configured. It can be used to select the behavior of certain buttons and bind them to functionalities such as launching the Homebrew Menu or enabling the cheat code manager.
+默认情况下 `override_config.ini` 未配置。它可用于选择某些按钮的行为，并将其绑定到功能，例如启动自制菜单或启用金手指代码管理器。
 
-You can modify the override_key entries in `override_config.ini` with this list of valid buttons:
+您可以使用以下有效按钮列表修改 `override_config.ini` 中的 override_key 条目：
 | Formal Name | .ini Name |
 | ----------- | --------- |
 | A Button    | A         |
@@ -83,43 +83,43 @@ You can modify the override_key entries in `override_config.ini` with this list 
 | SL Button   | SL        |
 | SR Button   | SR        |
 
-To invert the behavior of the override key, place an exclamation point in front of whatever button you wish to use. It will launch the actual game while holding down that button, instead of going into the Homebrew Menu. For example, `override_key=!R` will run the game only while holding down R when launching it, otherwise it will boot into the Homebrew Menu. Afterwards you may reinsert your SD card into your Switch and boot into Atmosphère as you normally would. You should now be able to boot into the Homebrew Menu by launching your designated program of choice.
+要反转覆盖键的行为，请在您希望使用的按钮前放置感叹号。这样将在按住该按钮时启动实际游戏，而不是进入自制菜单。例如，`override_key=!R` 将在启动时按住 R 键运行游戏，否则将启动到自制菜单。之后，您可以将 SD 卡重新插入 Switch 并像往常一样启动到 Atmosphère。现在，您应该能够通过启动您指定的程序选择进入自制菜单。
 
 ## system_settings.ini
-This file is located under the `/atmosphere/config/` folder on your SD card and a default template can be found inside the `/atmosphere/config_templates/` folder.
+该文件位于 SD 卡的 `/atmosphere/config/` 文件夹下，默认模板可在 `/atmosphere/config_templates/` 文件夹中找到。
 
-### Settings Format
-Atmosphère provides a way to override the firmware debug settings used by the system. These can be parsed from the `/atmosphere/config/system_settings.ini` file during the boot process. This file is a normal ini file, with some specific interpretations.
+### 设置格式
+Atmosphère 提供了一种覆盖系统使用的固件调试设置的方法。这些设置可以在启动过程中从 `/atmosphere/config/system_settings.ini` 文件解析。该文件是一个普通的 ini 文件，但有一些特定的解释规则。
 
-The standard representation of a setting's identifier takes the form `name!key`. This is represented within `system_settings.ini` as a section `name`, with an entry `key`. For example:
+设置标识符的标准表示形式为 `name!key`。在 `system_settings.ini` 中，这表示为 `name` 部分，其中包含 `key` 条目。例如：
 ```
 [name]
 key = ...
 ```
 
-Settings can have variable types (strings, integral values, byte arrays, etc). To accommodate this, `system_settings.ini` must store values as a `type_identifier!value_store` pair. A number of different types are supported, with identifiers detailed below.
-Please note that a malformed value string will cause a fatal error to occur on boot. A full example of a custom setting is given below (setting `eupld!upload_enabled = 0`), for posterity:
+设置可以具有变量类型（字符串、整数值、字节数组等）。为适应这一点，`system_settings.ini` 必须将值存储为 `type_identifier!value_store` 对。支持多种不同的类型，其标识符如下所述。
+请注意，格式错误的值字符串将导致启动时发生致命错误。下面给出了自定义设置的完整示例（设置 `eupld!upload_enabled = 0`）：
 ```
 [eupld]
 upload_enabled = u8!0x0
 ```
 
-#### Supported Types
-* Strings
-    * Type identifiers: `str`, `string`
-    * The value string is used directly as the setting, with null terminator appended.
-* Integral types
-    * Type identifiers: `u8`, `u16`, `u32`, `u64`
-    * The value string is parsed via a call to `strtoul(value, NULL, 0)`.
-    * Setting bitwidth is determined by the identifier (8 for 1 byte, 16 for 2 bytes, and so on).
-* Raw bytes
-    * Type identifiers: `hex`, `bytes`
-    * The value string is parsed as a hexadecimal string.
-        * The value string must be of even length, or a fatal error will be thrown on parse.
+#### 支持的类型
+* 字符串
+    * 类型标识符: `str`, `string`
+    * 值字符串直接用作设置，并附加空终止符。
+* 整型
+    * 类型标识符: `u8`, `u16`, `u32`, `u64`
+    * 值字符串通过调用 `strtoul(value, NULL, 0)` 解析。
+    * 设置位宽由标识符确定（1字节为8位，2字节为16位，依此类推）。
+* 原始字节
+    * 类型标识符: `hex`, `bytes`
+    * 值字符串被解析为十六进制字符串。
+        * 值字符串长度必须为偶数，否则解析时将抛出致命错误。
 
-## Content Specific Flags
-Atmosphère supports customizing CFW behavior based on the presence of `flags` on the SD card.
+## 内容特定标志
+Atmosphère 支持根据 SD 卡上存在的 `flags` 自定义 CFW 行为。
 
-The following flags are supported on a per-program basis, by placing `<flag_name>.flag` inside `/atmosphere/contents/<program_id>/flags/`:
-+ `boot2`, which indicates that the program should be launched during the `boot2` process.
-+ `redirect_save`, which indicates that the program wants its savedata to be redirected to the SD card.
+以下标志支持基于每个程序进行配置，方法是将 `<flag_name>.flag` 文件放入 `/atmosphere/contents/<program_id>/flags/` 目录：
++ `boot2`，表示该程序应在 `boot2` 过程中启动。
++ `redirect_save`，表示该程序希望将其保存数据重定向到 SD 卡。

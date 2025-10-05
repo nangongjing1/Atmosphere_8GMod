@@ -1,16 +1,16 @@
 # exosphère
-exosphère is a customized reimplementation of the Horizon OS's Secure Monitor.
-The Secure Monitor follows the same design principle as Arm's TrustZone and both terms can be used interchangeably in this context. It runs at the highest privilege mode (EL3) available to the main processor and is responsible for all the sensitive cryptographic operations needed by the system as well as power management for each CPU.
+exosphère是Horizon OS安全监视器（Secure Monitor）的定制化重新实现。
+安全监视器遵循Arm的TrustZone相同的设计原则，在此上下文中这两个术语可以互换使用。它在主处理器可用的最高权限模式（EL3）下运行，负责系统所需的所有敏感加密操作以及每个CPU的电源管理。
 
-## Extensions
-exosphère expands the original Secure Monitor design by providing custom SMCs (Secure Monitor Calls) necessary to the homebrew ecosystem. Currently, these are:
+## 扩展
+exosphère通过提供自制软件生态系统所需的自定义SMC（安全监视器调用）扩展了原始安全监视器设计。目前包括：
 ```
 uint32_t smc_ams_iram_copy(smc_args_t *args);
 uint32_t smc_ams_write_address(smc_args_t *args);
 uint32_t smc_ams_get_emummc_config(smc_args_t *args);
 ```
 
-Additionally, exosphère expands the functionality of two SMCs provided by the Horizon OS for getting/setting configuration items. The following custom configuration items are provided by exosphère:
+此外，exosphère扩展了Horizon OS提供的两个用于获取/设置配置项的SMC功能。exosphère提供以下自定义配置项：
 ```
 CONFIGITEM_EXOSPHERE_VERSION = 65000,
 CONFIGITEM_NEEDS_REBOOT = 65001,
@@ -22,55 +22,55 @@ CONFIGITEM_ALLOW_CAL_WRITES = 65006,
 ```
 
 ### smc_ams_iram_copy
-This function implements a copy of up to one page between DRAM and IRAM. Its arguments are:
+此函数实现在DRAM和IRAM之间复制最多一个页面的数据。其参数为：
 ```
-args->X[1] = DRAM address (translated by kernel), must be 4-byte aligned.
-args->X[2] = IRAM address, must be 4-byte aligned.
-args->X[3] = Size (must be <= 0x1000 and 4-byte aligned).
-args->X[4] = 0 for read, 1 for write.
+args->X[1] = DRAM地址（由内核转换），必须4字节对齐。
+args->X[2] = IRAM地址，必须4字节对齐。
+args->X[3] = 大小（必须 <= 0x1000 且4字节对齐）。
+args->X[4] = 0表示读取，1表示写入。
 ```
 
 ### smc_ams_write_address
-This function implements a write to a DRAM page. Its arguments are:
+此函数实现对DRAM页面的写入。其参数为：
 ```
-args->X[1] = Virtual address, must be size-bytes aligned and readable by EL0.
-args->X[2] = Value.
-args->X[3] = Size (must be 1, 2, 4, or 8).
+args->X[1] = 虚拟地址，必须按大小字节对齐且EL0可读。
+args->X[2] = 值。
+args->X[3] = 大小（必须为1、2、4或8）。
 ```
 
 ### smc_ams_get_emummc_config
-This function retrieves configuration for the current [emummc](emummc.md) context. Its arguments are:
+此函数检索当前[emummc](emummc.md)上下文的配置。其参数为：
 ```
-args->X[1] = MMC id, must be size-bytes aligned and readable by EL0.
-args->X[2] = Pointer to output (for paths for filebased + nintendo dir), must be at least 0x100 bytes.
+args->X[1] = MMC ID，必须按大小字节对齐且EL0可读。
+args->X[2] = 输出指针（用于基于文件的路径 + nintendo目录），必须至少0x100字节。
 ```
 
 ### CONFIGITEM_EXOSPHERE_VERSION
-This custom configuration item gets information about the current exosphere version.
+此自定义配置项获取当前exosphere版本信息。
 
 ### CONFIGITEM_NEEDS_REBOOT
-This custom configuration item is used to issue a system reboot into RCM or into a warmboot payload leveraging a secondary vulnerability to achieve code execution from warm booting.
+此自定义配置项用于发起系统重启进入RCM或利用辅助漏洞实现热启动代码执行的warmboot payload。
 
 ### CONFIGITEM_NEEDS_SHUTDOWN
-This custom configuration item is used to issue a system shutdown with a warmboot payload leveraging a secondary vulnerability to achieve code execution from warm booting.
+此自定义配置项用于发起系统关机，利用辅助漏洞实现热启动代码执行的warmboot payload。
 
 ### CONFIGITEM_EXOSPHERE_VERHASH
-This custom configuration item gets information about the current exosphere git commit hash.
+此自定义配置项获取当前exosphere的git提交哈希。
 
 ### CONFIGITEM_HAS_RCM_BUG_PATCH
-This custom configuration item gets whether the unit has the CVE-2018-6242 vulnerability patched.
+此自定义配置项获取设备是否已修复CVE-2018-6242漏洞。
 
 ### CONFIGITEM_SHOULD_BLANK_PRODINFO
-This custom configuration item gets whether the unit should simulate a "blanked" PRODINFO. See [here](../features/configurations.md) for more information.
+此自定义配置项获取设备是否应模拟"空白"的PRODINFO。更多信息请参见[此处](../features/configurations.md)。
 
 ### CONFIGITEM_ALLOW_CAL_WRITES
-This custom configuration item gets whether the unit should allow writing to the calibration partition.
+此自定义配置项获取设备是否应允许写入校准分区。
 
 ## lp0fw
-This is a small, built-in payload that is responsible for waking up the system during a warm boot.
+这是一个小型内置payload，负责在热启动期间唤醒系统。
 
 ## sc7fw
-This is a small, built-in payload that is responsible for putting the system to sleep during a warm boot.
+这是一个小型内置payload，负责在热启动期间使系统进入睡眠状态。
 
 ## rebootstub
-This is a small, built-in payload that provides functionality to reboot the system into any payload of choice.
+这是一个小型内置payload，提供将系统重启到任意选定payload的功能。

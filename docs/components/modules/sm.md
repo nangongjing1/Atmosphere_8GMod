@@ -1,13 +1,13 @@
 # sm
-This module is a reimplementation of the Horizon OS's `sm` system module, which is responsible for service management.
+该模块是对 Horizon OS 的 `sm` 系统模块的重新实现，负责服务管理。
 
-## Extensions
-Atmosphère extends this module with extra IPC commands and new services.
+## 扩展功能
+Atmosphère 通过额外的 IPC 命令和新服务扩展了此模块。
 
-### Debug Monitor
-Atmosphère's reimplementation provides an interface `sm:dmnt` to allow a debug monitor to query the service manager's state.
+### 调试监视器
+Atmosphère 的重新实现提供了一个接口 `sm:dmnt`，允许调试监视器查询服务管理器的状态。
 
-The SwIPC definition for `sm:dmnt` follows:
+`sm:dmnt` 的 SwIPC 定义如下：
 ```
 interface ams::sm::DmntService is sm:dmnt {
   [65000] AtmosphereGetRecord(ServiceName service) -> sf::Out<ServiceRecord> record;
@@ -16,10 +16,10 @@ interface ams::sm::DmntService is sm:dmnt {
 }
 ```
 
-### IPC Commands
-Atmosphère's reimplementation extends the HIPC loader services' API with several custom commands.
+### IPC 命令
+Atmosphère 的重新实现通过几个自定义命令扩展了 HIPC 加载器服务的 API。
 
-The SwIPC definition for the `sm:` extension commands follows:
+`sm:` 扩展命令的 SwIPC 定义如下：
 ```
 interface ams::sm::UserService is sm: {
   ...
@@ -36,7 +36,7 @@ interface ams::sm::UserService is sm: {
 }
 ```
 
-The SwIPC definition for the `sm:m` extension commands follows:
+`sm:m` 扩展命令的 SwIPC 定义如下：
 ```
 interface ams::sm::ManagerService is sm:m {
   ...
@@ -44,4 +44,3 @@ interface ams::sm::ManagerService is sm:m {
   [65001] AtmosphereHasMitm(ServiceName service) -> sf::Out<bool> out;
   [65002] AtmosphereRegisterProcess(os::ProcessId process_id, ncm::ProgramId program_id, cfg::OverrideStatus override_status, sf::InBuffer &acid_sac, sf::InBuffer &aci_sac);
 }
-```

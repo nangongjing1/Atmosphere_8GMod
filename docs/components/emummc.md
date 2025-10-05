@@ -1,4 +1,4 @@
 # emummc
-emummc is a collaborative project that provides eMMC storage emulation.
+emummc是一个协作项目，提供eMMC存储模拟。
 
-Please refer to the project's repository [here](https://github.com/m4xw/emuMMC) for detailed instructions and documentation.
+请参考项目的[GitHub仓库](https://github.com/m4xw/emuMMC)获取详细说明和文档。

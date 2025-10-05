@@ -1,13 +1,13 @@
 # pm
-This module is a reimplementation of the Horizon OS's `pm` system module, which is responsible for tracking running processes on the system, and managing resource limits.
+该模块是对 Horizon OS 的 `pm` 系统模块的重新实现，负责跟踪系统上运行的进程，并管理资源限制。
 
-## Extensions
-Atmosphère extends this module with extra IPC commands and memory restriction changes.
+## 扩展功能
+Atmosphère 通过额外的 IPC 命令和内存限制更改扩展了此模块。
 
-### IPC Commands
-Atmosphère's reimplementation extends the HIPC loader services' API with several custom commands.
+### IPC 命令
+Atmosphère 的重新实现通过几个自定义命令扩展了 HIPC 加载器服务的 API。
 
-The SwIPC definition for the `pm:dmnt` extension commands follows:
+`pm:dmnt` 扩展命令的 SwIPC 定义如下：
 ```
 interface ams::pm::dmnt::DebugMonitorServiceBase is pm:dmnt {
   ...
@@ -16,7 +16,7 @@ interface ams::pm::dmnt::DebugMonitorServiceBase is pm:dmnt {
 }
 ```
 
-The SwIPC definition for the `pm:info` extension commands follows:
+`pm:info` 扩展命令的 SwIPC 定义如下：
 ```
 interface ams::pm::info::InformationService is pm:info {
   ...
@@ -26,5 +26,5 @@ interface ams::pm::info::InformationService is pm:info {
 }
 ```
 
-### Extra System Memory
-Atmosphère's reimplementation shrinks the APPLET memory pool by 24 MiB by default, giving this memory to the SYSTEM pool. This allows custom system modules to use more memory without hitting the SYSTEM memory limit.
+### 额外的系统内存
+Atmosphère 的重新实现默认将 APPLET 内存池缩小 24 MiB，并将这些内存分配给 SYSTEM 池。这使得自定义系统模块可以使用更多内存，而不会达到 SYSTEM 内存限制。

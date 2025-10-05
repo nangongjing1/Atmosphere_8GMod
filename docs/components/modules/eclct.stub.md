@@ -1,4 +1,4 @@
 # eclct.stub
-This module is a reimplementation of the Horizon OS's `eclct` system module, which collects error reports.
+该模块是 Horizon OS 中 `eclct` 系统模块的重新实现，负责收集错误报告。
 
-Atmosphère's reimplementation is a stub to remove any and all functionality pertaining to error report collection.
+Atmosphère 的重新实现是一个 stub，用于移除与错误报告收集相关的所有功能。

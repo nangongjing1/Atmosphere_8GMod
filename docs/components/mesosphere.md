@@ -1,3 +1,3 @@
 # mesosphère
-mesosphère is a work in progress customized kernel reimplementation.
-The Horizon OS's kernel follows microkernel design principles and runs at the EL1 level. It is currently subdivided into a loader (kernel_ldr) and the main kernel code.
+mesosphère是一个正在进行中的定制内核重新实现。
+Horizon OS的内核遵循微内核设计原则，运行在EL1级别。它目前分为加载器（kernel_ldr）和主内核代码。

@@ -1,11 +1,11 @@
 # libraries
-This is a collection of libraries for doing operating system development for the Nintendo Switch.
+这是一个用于为任天堂Switch开发操作系统的库集合。
 
 ## libmesosphere
-libmesosphere is a work-in-progress C++ library implementing functionality for the Horizon Kernel.
+libmesosphere是一个正在开发中的C++库，用于实现Horizon内核的功能。
 
 ## libstratosphere
-libstratosphere is a work-in-progress C++ library for development of system modules for the Nintendo Switch.
+libstratosphere是一个正在开发中的C++库，用于为任天堂Switch开发系统模块。
 
 ## libvapours
-Common boilerplate code for various purposes. 
+用于各种目的的通用样板代码。

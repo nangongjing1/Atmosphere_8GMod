@@ -1,13 +1,13 @@
 # dmnt
-This module is a reimplementation of the Horizon OS's `dmnt` system module, which provides a debug monitor.
+该模块是 Horizon OS 中 `dmnt` 系统模块的重新实现，负责提供调试监视器（debug monitor）功能。
 
-## Extensions
-Atmosphère implements an extension to provide cheat code functionality.
+## 扩展功能
+Atmosphère 实现了一个扩展，用于提供金手指（cheat code）功能。
 
-### Cheat Service
-A HIPC service API is provided for interacting with the cheat code manager through the service `dmnt:cht`. See [here](../../features/cheats.md) for more information on the cheat code format.
+### 金手指服务（Cheat Service）
+通过服务 `dmnt:cht` 提供了一个 HIPC 服务 API，用于与金手指管理器交互。有关金手指格式的更多信息，请参见[这里](../../features/cheats.md)。
 
-The SwIPC definition for `dmnt:cht` follows:
+`dmnt:cht` 的 SwIPC 定义如下：
 ```
 interface ams::dmnt::cheat::CheatService is dmnt:cht {
   [65000] HasCheatProcess() -> sf::Out<bool> out;

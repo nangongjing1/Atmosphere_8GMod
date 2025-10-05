@@ -1,8 +1,8 @@
 # stratosphère
-stratosphère provides customization of the Horizon OS at the system level. This includes a reimplementation of several system modules and additional, custom system modules that extend or add a variety of features.
+stratosphère在系统级别提供对Horizon OS的定制。这包括重新实现多个系统模块以及添加扩展各种功能的额外自定义系统模块。
 
-## Modules
-The modules currently provided by stratosphère are:
+## 模块
+目前由stratosphère提供的模块包括：
 + [ams_mitm](modules/ams_mitm.md)
 + [boot](modules/boot.md)
 + [boot2](modules/boot2.md)

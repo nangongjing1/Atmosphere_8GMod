@@ -1,8 +1,8 @@
 # fusée
-fusée is a custom bootloader used to start the Atmosphère environment.
+fusée是用于启动Atmosphère环境的自定义引导加载程序。
 
 ## fusée
-fusée is the first piece of Atmosphère's code that runs on the hardware.
-It is distributed as a standalone payload designed to be launched via RCM by abusing the CVE-2018-6242 vulnerability.
+fusée是Atmosphère代码中第一个在硬件上运行的部分。
+它作为独立的payload分发，旨在通过利用CVE-2018-6242漏洞在RCM模式下启动。
 
-This payload is responsible for all the low-level hardware initialization required by the Nintendo Switch, setting up the cryptosystem, mounting/emulating the eMMC, injecting/patching system modules, and launching the exosphère component.
+此payload负责任天堂Switch所需的所有底层硬件初始化，设置加密系统，挂载/模拟eMMC，注入/修补系统模块，并启动exosphere组件。

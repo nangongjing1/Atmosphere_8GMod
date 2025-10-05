@@ -1,4 +1,4 @@
 # pgl
-This module is a reimplementation of the Horizon OS's `pgl` system module, which is responsible for launching programs and was introduced by firmware version `10.0.0`.
+该模块是对 Horizon OS 的 `pgl` 系统模块的重新实现，负责启动程序，并在固件版本 `10.0.0` 中引入。
 
-Currently, Atmosphère's reimplementation doesn't backport this module's functionalities to firmware versions lower than `10.0.0`.
+目前，Atmosphère 的重新实现并未将该模块的功能向后移植到低于 `10.0.0` 的固件版本。

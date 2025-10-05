@@ -1,124 +1,139 @@
-# Changelog
+# 更新日志
 ## 1.9.5
-+ Basic support was added for 20.5.0.
-+ General system stability improvements to enhance the user's experience.
++ 添加了对20.5.0的基本支持。
++ 常规系统稳定性改进，以提升用户体验。
+
 ## 1.9.4
-+ Basic support was added for 20.4.0.
-+ An issue was fixed in `exosphère`'s register accessilibity tables (thanks @CTCaer).
-  + I believe this had no impact on official code, though it would have prevented some homebrew from interacting correctly with the MC0/MC1 registers.
-+ An issue was fixed that could cause a deadlock when building multiple romfs images simultaneously (thanks @Ereza).
-  + This fixes support for certain mods, e.g. system language translations overriding content for both overlayDisp and qlaunch.
-+ General system stability improvements to enhance the user's experience.
++ 添加了对20.4.0的基本支持。
++ 修复了`exosphere`寄存器可访问性表中的一个问题（感谢@CTCaer）。
+  + 我认为这对官方代码没有影响，但可能会阻止某些自制软件正确与MC0/MC1寄存器交互。
++ 修复了同时构建多个romfs镜像时可能导致死锁的问题（感谢@Ereza）。
+  + 这修复了对某些mod的支持，例如同时覆盖overlayDisp和qlaunch内容的系统语言翻译。
++ 常规系统稳定性改进，以提升用户体验。
+
 ## 1.9.3
-+ Basic support was added for 20.3.0.
-+ Compatibility was fixed for loading mods with KOTOR 2 (star wars).
-+ General system stability improvements to enhance the user's experience.
++ 添加了对20.3.0的基本支持。
++ 修复了加载《星球大战：旧共和国武士2》(KOTOR 2) mod的兼容性问题。
++ 常规系统稳定性改进，以提升用户体验。
+
 ## 1.9.2
-+ Basic support was added for 20.2.0.
-+ USB 3.0 support force-enable was fixed for 20.1.0+.
-+ General system stability improvements to enhance the user's experience.
++ 添加了对20.2.0的基本支持。
++ 修复了20.1.0+上USB 3.0支持强制启用的问题。
++ 常规系统稳定性改进，以提升用户体验。
+
 ## 1.9.1
-+ Basic support was added for 20.1.0.
-+ General system stability improvements to enhance the user's experience.
++ 添加了对20.1.0的基本支持。
++ 常规系统稳定性改进，以提升用户体验。
+
 ## 1.9.0
-+ Basic support was added for 20.0.0.
-  + The console should boot and atmosphère should be fully functional. However, not all modules have been fully updated to reflect the latest changes.
-    + There shouldn't be anything user visible resulting from this, but it will be addressed in a future atmosphère update.
-    + The same action item from 18.0.0 remains, and I believe in my heart of hearts that it will be addressed eventually. Someone has told me they're working on it.
-    + There aren't (to my knowledge) outstanding 19.0.0 items any more.
-  + **Please note**: As a result of changes made to nintendo's software in 20.0.0, there is roughly 10MB less memory available for custom system modules.
-    + We can only steal a maximum of 14MB from the applet pool, down from 40MB.
-    + To compensate for this, `ams.mitm`'s heap usage has been reduced by 20MB.
-      + To facilitate this, a new helper module (`memlet`) was added, so that memory may be temporarily stolen during the romfs building process.
-      + Hopefully, this results in relatively little breakage, however it is possible that user mods which replace extremely large numbers of files in The Legend of Zelda: Tears of the Kingdom may no longer function.
-        + If you are affected by this, you will see "Data abort (0x101)" when trying to launch the game with mods.
-        + Please reach out to `sciresm` on discord if this occurs to share your error report binary. However, some issues may be impossible to fix.
-        + I apologize sincerely if the issue is impossible to resolve, but I have been forced unavoidably to make compromises here, and I think this is the best balance to be struck.
-  + `exosphère` was updated to reflect the latest official secure monitor behavior.
-  + `mesosphère` was updated to reflect the latest official kernel behavior.
-  + `loader` was updated to reflect the latest official behavior.
-  + `pm` was updated to reflect the latest official behavior.
-  + `ncm` was partially updated to reflect the latest official behavior.
-  + `erpt` was updated to reflect the latest official behavior.
-+ Atmosphère was updated to use GCC 15/newlib (latest devkitA64/devkitARM releases).
-+ A number of improvements were made to the dmnt cheat engine.
-  + New instructions were added, and instructions were updated for improved/new functionality.
-  + Please see the documents for details -- thanks @tomvita!
-+ General system stability improvements to enhance the user's experience.
++ 添加了对20.0.0的基本支持。
+  + 主机应能启动且Atmosphere应完全功能正常。然而，并非所有模块都已完全更新以反映最新更改。
+    + 这不应导致用户可见的任何问题，但将在未来的Atmosphere更新中解决。
+    + 18.0.0中的相同待办事项仍然存在，我相信最终会得到解决。有人告诉我他们正在处理。
+    + 据我所知，19.0.0没有未解决的待办事项。
+  + **请注意**：由于20.0.0中对任天堂软件的更改，可用于自定义系统模块的内存减少了约10MB。
+    + 我们只能从applet池中窃取最多14MB，而之前是40MB。
+    + 为补偿这一点，`ams.mitm`的堆使用减少了20MB。
+      + 为此，添加了一个新的辅助模块(`memlet`)，以便在romfs构建过程中临时窃取内存。
+      + 希望这导致的破坏相对较少，但替换《塞尔达传说：王国之泪》中极大量文件的用户mod可能不再起作用。
+        + 如果受影响，在尝试使用mod启动游戏时会看到"Data abort (0x101)"。
+        + 如果发生此情况，请通过Discord联系`sciresm`分享错误报告二进制文件。但某些问题可能无法修复。
+        + 如果问题无法解决，我真诚道歉，但我不得不在此做出妥协，我认为这是最佳平衡。
+  + `exosphere`更新以反映最新的官方安全监视器行为。
+  + `mesosphere`更新以反映最新的官方内核行为。
+  + `loader`更新以反映最新的官方行为。
+  + `pm`更新以反映最新的官方行为。
+  + `ncm`部分更新以反映最新的官方行为。
+  + `erpt`更新以反映最新的官方行为。
++ Atmosphere更新为使用GCC 15/newlib（最新的devkitA64/devkitARM版本）。
++ 对dmnt金手指引擎进行了多项改进。
+  + 添加了新指令，并更新了指令以改进/新增功能。
+  + 详情请参阅文档——感谢@tomvita！
++ 常规系统稳定性改进，以提升用户体验。
+
 ## 1.8.0
-+ Basic support was added for 19.0.0.
-  + The console should boot and atmosphère should be fully functional. However, not all modules have been fully updated to reflect the latest changes.
-    + There shouldn't be anything user visible resulting from this, but it will be addressed in a future atmosphère update. There is still one action item from 18.0.0 to be addressed, as well.
-  + `exosphère` was updated to reflect the latest official secure monitor behavior.
-  + `mesosphère` was updated to reflect the latest official kernel behavior.
-  + `loader` was updated to reflect the latest official behavior.
-  + `pm` was updated to reflect the latest official behavior.
-  + `ro` was updated to reflect the latest official behavior.
-+ `creport`'s file acces patterns were optimized, greatly improving performance when generating a crash report.
-+ Atmosphère now uses `relr` relocations where possible.
-  + This reduces the filesize of a number of atmosphère's modules.
-+ A number of minor issues were fixed and improvements were made, including:
-  + Support was fixed for running Atmosphère on newer units with specific Hynix/Micron DRAM chips.
-+ General system stability improvements to enhance the user's experience.
++ 添加了对19.0.0的基本支持。
+  + 主机应能启动且Atmosphere应完全功能正常。然而，并非所有模块都已完全更新以反映最新更改。
+    + 这不应导致用户可见的任何问题，但将在未来的Atmosphere更新中解决。18.0.0中仍有一个待办事项待解决。
+  + `exosphere`更新以反映最新的官方安全监视器行为。
+  + `mesosphere`更新以反映最新的官方内核行为。
+  + `loader`更新以反映最新的官方行为。
+  + `pm`更新以反映最新的官方行为。
+  + `ro`更新以反映最新的官方行为。
++ `creport`的文件访问模式优化，显著提高了生成崩溃报告时的性能。
++ Atmosphere现在在可能的情况下使用`relr`重定位。
+  + 这减少了多个Atmosphere模块的文件大小。
++ 修复了一些小问题并进行了改进，包括：
+  + 修复了在具有特定Hynix/Micron DRAM芯片的新机型上运行Atmosphere的支持。
++ 常规系统稳定性改进，以提升用户体验。
+
 ## 1.7.1
-+ Support was added for 18.1.0.
-+ Atmosphère was updated to use GCC 14/newlib (latest devkitA64/devkitARM releases).
-+ Further changes were for 18.0.0:
-  + `loader` was updated to reflect the latest official behavior.
-+ General system stability improvements to enhance the user's experience.
++ 添加了对18.1.0的支持。
++ Atmosphere更新为使用GCC 14/newlib（最新的devkitA64/devkitARM版本）。
++ 针对18.0.0的进一步更改：
+  + `loader`更新以反映最新的官方行为。
++ 常规系统稳定性改进，以提升用户体验。
+
 ## 1.7.0
-+ Basic support was added for 18.0.0.
-  + The console should boot and atmosphère should be fully functional. However, not all modules have been fully updated to reflect the latest changes.
-    + There shouldn't be anything user visible resulting from this, but it will be addressed in a future atmosphère update, once I am not traveling so much.
-  + `exosphère` was updated to reflect the latest official secure monitor behavior.
-  + `mesosphère` was updated to reflect the latest official kernel behavior.
-  + `spl` was updated to reflect the latest official behavior.
-+ `fusee`'s no longer supports applying IPS patches to KIPs.
-  + The only KIPs that are ever present are a) atmosphère modules, b) custom system modules, or c) FS.
-  + The IPS subsystem was originally designed to make nogc patches work for FS, but these are now internal, and it appears the literal only kip patches that exist are for piracy.
-    + I could not find any kip patches posted anywhere made for any other purpose.
-  + It fundamentally does not make sense to slow down boot for every normal user for a feature that has no actual use-case, especially when `fusee` seeks to be a minimal bootloader.
-+ Minor improvements were made to atmosphere's gdbstub, including:
-  + Support was added for QStartNoAckMode.
-  + An issue was fixed that could cause a fatal error when creating too many breakpoints.
-+ A number of minor issues were fixed and improvements were made, including:
-  + `pt-BR` (`PortugueseBr`) is now accepted as a valid language when overriding game locales.
-  + A bug was fixed that could cause atmosphere to incorrectly serialize output object IDs over IPC when using domain objects.
-  + A bug was fixed in `pm`'s resource limit boost logic that could potentially cause legitimate boosts to fail in certain circumstances.
-  + `loader`/`ro` will now throw a fatal error when using invalid IPS patches that go out of bounds, instead of corrupting memory.
-  + Support was fixed for booting using a memory configuration of half of the true available memory (e.g. forcing a 4GB configuration on an 8GB board).
-+ General system stability improvements to enhance the user's experience.
++ 添加了对18.0.0的基本支持。
+  + 主机应能启动且Atmosphere应完全功能正常。然而，并非所有模块都已完全更新以反映最新更改。
+    + 这不应导致用户可见的任何问题，但将在未来的Atmosphere更新中解决，一旦我不再频繁出差。
+  + `exosphere`更新以反映最新的官方安全监视器行为。
+  + `mesosphere`更新以反映最新的官方内核行为。
+  + `spl`更新以反映最新的官方行为。
++ `fusee`不再支持对KIPs应用IPS补丁。
+  + 唯一存在的KIPs是：a) Atmosphere模块，b) 自定义系统模块，或c) FS。
+  + IPS子系统最初设计用于使nogc补丁对FS生效，但现在这些补丁是内部的，而且似乎唯一存在的kip补丁是用于盗版的。
+    + 我找不到任何为其他目的发布的kip补丁。
+  + 从根本上讲，为一个没有实际用例的功能而减慢每个普通用户的启动速度是没有意义的，特别是当`fusee`旨在成为一个最小化的引导加载程序时。
++ 对Atmosphere的gdbstub进行了小幅改进，包括：
+  + 添加了对QStartNoAckMode的支持。
+  + 修复了一个在创建过多断点时可能导致致命错误的问题。
++ 修复了一些小问题并进行了改进，包括：
+  + 在覆盖游戏区域设置时，现在接受`pt-BR`(`PortugueseBr`)作为有效语言。
+  + 修复了一个错误，该错误可能导致Atmosphere在使用域对象时在IPC中错误地序列化输出对象ID。
+  + 修复了`pm`的资源限制提升逻辑中的一个错误，该错误在某些情况下可能导致合法的提升失败。
+  + 当使用超出范围的无效IPS补丁时，`loader`/`ro`现在会抛出致命错误，而不是破坏内存。
+  + 修复了对使用一半真实可用内存的内存配置启动的支持（例如，在8GB主板上强制使用4GB配置）。
++ 常规系统稳定性改进，以提升用户体验。
+
 ## 1.6.2
-+ Support was finished for 17.0.0.
-  + `erpt` was updated to support the latest official behavior.
-  + `jpegdec` was updated to support the latest official behavior.
-  + `pm` was updated to support the latest official behavior.
-+ General system stability improvements to enhance the user's experience.
++ 完成了对17.0.0的支持。
+  + `erpt`更新以支持最新的官方行为。
+  + `jpegdec`更新以支持最新的官方行为。
+  + `pm`更新以支持最新的官方行为。
++ 常规系统稳定性改进，以提升用户体验。
+
 ## 1.6.1
-+ An improved solution to [the problem that would cause consoles which had previously re-built their SYSTEM partition to brick on update-to-17.0.0](https://gist.github.com/SciresM/2ddb708c812ed585c4d99f54e25205ff) was added.
-  + In particular, booting atmosphère will now automatically detect the problem and unbrick any consoles which have fallen into this state.
-+ Some improvements were made to `haze`, including:
-  + Performance was greatly improved:
-    + Support was added for GetObjectPropList, which decreases the amount of requests made by ~8x.
-    + Haze now performs rendering on the GPU, freeing up the CPU to respond to requests in a more timely manner.
-  + An issue was fixed with how `haze` configures `bMaxPacketSize0` which improves support for USB3.
-+ General system stability improvements to enhance the user's experience.
++ 针对[之前重建过SYSTEM分区的主机在升级到17.0.0时变砖的问题](https://gist.github.com/SciresM/2ddb708c812ed585c4d99f54e25205ff)添加了改进解决方案。
+  + 特别是，启动Atmosphere现在会自动检测该问题并解砖任何陷入此状态的主机。
++ 对`haze`进行了一些改进，包括：
+  + 性能大幅提升：
+    + 添加了对GetObjectPropList的支持，将请求数量减少了约8倍。
+    + Haze现在在GPU上执行渲染，释放CPU以更及时地响应请求。
+  + 修复了`haze`配置`bMaxPacketSize0`的问题，改进了对USB3的支持。
++ 常规系统稳定性改进，以提升用户体验。
+
 ## 1.6.0
-+ Basic support was added for 17.0.0.
-  + The console should boot and atmosphère should be fully functional. However, not all modules have been fully updated to reflect the latest changes.
-    + There shouldn't be anything user visible resulting from this, but it will be addressed in a soon-to-come atmosphère update.
-  + `exosphère` was updated to reflect the latest official secure monitor behavior.
-  + `mesosphère` was updated to reflect the latest official kernel behavior.
-  + `ncm` was updated to reflect the latest official behavior.
-  + `erpt` was partially updated to support the latest official behavior.
-+ Atmosphere's gdbstub now supports waiting to attach to a specific program id on launch (as opposed to any application).
-  + The monitor command for this is `monitor wait <hex program id>`, where program id can optionally have an `0x` prefix.
-+ Support was added to `haze` for editing files in-place and performing 64-bit transfers (files larger than 4 GB).
-+ `bpc.mitm` was enabled on Mariko units, and now triggers pmic-based shutdowns/reboots (thanks @CTCaer).
-  + This should cause the console to no longer wake ~15 seconds after shutdown on Mariko.
-+ A number of minor issues were fixed and improvements were made, including:
-  + A workaround was added for a change in 17.0.0 that would cause consoles which had previously re-built their SYSTEM partition to brick on update-to-17.0.0.
-+ General system stability improvements to enhance the user's experience.
++ 添加了对17.0.0的基本支持。
+  + 主机应能启动且Atmosphere应完全功能正常。然而，并非所有模块都已完全更新以反映最新更改。
+    + 这不应导致用户可见的任何问题，但将在即将到来的Atmosphere更新中解决。
+  + `exosphere`更新以反映最新的官方安全监视器行为。
+  + `mesosphere`更新以反映最新的官方内核行为。
+  + `ncm`更新以反映最新的官方行为。
+  + `erpt`部分更新以支持最新的官方行为。
++ Atmosphere的gdbstub现在支持在启动时等待附加到特定的程序ID（而不是任何应用程序）。
+  + 监视器命令为`monitor wait <十六进制程序ID>`，其中程序ID可以选择性地带有`0x`前缀。
++ 为`haze`添加了对就地编辑文件和执行64位传输（大于4GB的文件）的支持。
++ 在Mariko设备上启用了`bpc.mitm`，并现在触发基于pmic的关机/重启（感谢@CTCaer）。
+  + 这应导致主机在关机后不再唤醒约15秒。
++ 修复了一些小问题并进行了改进，包括：
+  + 添加了一个针对17.0.0中更改的变通方案，该更改可能导致之前重建过SYSTEM分区的主机在升级到17.0.0时变砖。
++ 常规系统稳定性改进，以提升用户体验。
+
+
+---
+> """以下内容不做翻译，因为我认为实用性不大"""
 ## 1.5.5
 + Support was added for 16.1.0.
 + General system stability improvements to enhance the user's experience.

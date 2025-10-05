@@ -1,60 +1,60 @@
-# Planned Features
-atmosphère has a number of features that are either works-in-progress or planned. Please note that while time-estimates are given, they are loose, and things may be completed sooner or later than advertised.
+# 计划功能
+atmosphère有许多正在开发或计划中的功能。请注意，虽然提供了时间预估，但这些是宽松的，实际完成时间可能早于或晚于公布的时间。
 
-The following descriptions were last updated on January 14th, 2021
+以下描述最后更新于2021年1月14日
 
-## tma reimplementation
-* **Description** tma ("target manager agent") is a system module that manages communication between the Switch and a client PC. Atmosphere's implementation will allow homebrew on the switch to communicate with a connected PC to do various operations such as exchanging data or interacting with files. It will also serve as the communicator for Atmosphère's planned debugger. This will also include PC-side software for interacting with the Switch.
-* **Development Status**: Planned. Switch-side code is fully implemented but needs heavy refactoring/rebasing, as the code was originally authored in 2018.
-* **Estimated Time**: 2021-2022.
+## tma 重新实现
+* **描述** tma（"目标管理器代理"）是一个系统模块，管理Switch与客户端PC之间的通信。Atmosphere的实现将允许Switch上的自制软件与连接的PC通信，以执行各种操作，如交换数据或与文件交互。它还将作为Atmosphère计划中的调试器的通信器。这还将包括用于与Switch交互的PC端软件。
+* **开发状态**：计划中。Switch端代码已完全实现，但需要大量重构/重新调整，因为代码最初编写于2018年。
+* **预估时间**：2021-2022年。
 
-## dmnt.gen2 reimplementation
-* **Description**: A reimplementation of the Switch's debug monitor, dmnt will provide an interface for debugging applications or system modules running on the Switch. This will include a gdbstub for debugging actively-running system components or applications.
-* **Development Status**: Planned
-* **Estimated Time**: 2021-2022
+## dmnt.gen2 重新实现
+* **描述**：对Switch的调试监视器的重新实现，dmnt将提供调试在Switch上运行的应用程序或系统模块的接口。这将包括用于调试正在运行的系统组件或应用程序的gdbstub。
+* **开发状态**：计划中
+* **预估时间**：2021-2022年
 
-## fs reimplementation
-* **Description**: Following mesosphère's completion, atmosphère will have reimplemented all components of the BootImagePackage firmware except for the filesystem services system module. Reimplementing fs will allow for fixing Nintendo bugs (such as corruption when using exFAT filesystems and encoding inconsistencies with UTF-8 and Shift-JIS).
-* **Development Status**: Planned.
-* **Estimated Time**: 2021-2022.
+## fs 重新实现
+* **描述**：在mesosphère完成后，atmosphère将重新实现BootImagePackage固件的所有组件，除了文件系统服务系统模块。重新实现fs将允许修复任天堂的错误（例如使用exFAT文件系统时的损坏问题，以及UTF-8和Shift-JIS编码不一致问题）。
+* **开发状态**：计划中。
+* **预估时间**：2021-2022年。
 
-## settings reimplementation
-* **Description**: A planned reimplementation of the settings system module, and with it a removal of the settings mitm. This will greatly simplify atmosphère's boot process, and will allow much more flexible control over the various system settings.
-* **Development Status**: Pending development by Adubbz.
-* **Estimated Time**: Unclear, pending developer availability.
+## settings 重新实现
+* **描述**：计划中的设置系统模块重新实现，并随之移除设置mitm。这将大大简化atmosphère的启动过程，并允许更灵活地控制各种系统设置。
+* **开发状态**：等待Adubbz开发。
+* **预估时间**：不明确，取决于开发者的可用性。
 
 ## thermosphère
-* **Description**: A general-purpose hypervisor, thermosphère will enable the virtualization of the Switch's operating system; this is planned to enable debugging of the Switch's kernel.
-* **Development Status**: Pending development by TuxSH.
-* **Estimated Time**: Unclear, pending developer availability.
+* **描述**：一个通用虚拟机监控程序，thermosphère将实现Switch操作系统的虚拟化；这计划用于调试Switch的内核。
+* **开发状态**：等待TuxSH开发。
+* **预估时间**：不明确，取决于开发者的可用性。
 
-## other planned features
-* **Description**: General system stability improvements to enhance the user's experience.
-* **Development Status**: Undergoing active development by all members of the atmosphère team.
-* **Estimated Time**: June 15th.
+## 其他计划功能
+* **描述**：常规系统稳定性改进，以提升用户体验。
+* **开发状态**：由atmosphère团队所有成员积极开发中。
+* **预估时间**：6月15日。
 
-# Completed features
+# 已完成功能
 
-The following features were previously included under the planned features section and are now complete.
+以下功能先前包含在计划功能部分，现已完成。
 
-Please note that this is not an exhaustive list of features present in atmosphère, and only serves to indicate what from the above has been completed.
+请注意，这不是atmosphère中所有功能的详尽列表，仅用于指示上述哪些功能已完成。
 
-## system updater homebrew
-* **Description**: A user homebrew making use of the new system updater api, so that users can actually use the new api in practice.
-* **Completion Time**: July 2020
+## 系统更新器自制软件
+* **描述**：一个使用新系统更新器api的用户自制软件，以便用户在实践中实际使用新api。
+* **完成时间**：2020年7月
 
-## system updater api
-* **Description**: A planned extension api for stratosphere (tenatively `ams:su`), this will provide an interface for homebrew to safely install system upgrades or downgrades. This will allow for much more easily transitioning safely between different versions of the operating system.
-* **Completion Time**: June 2020
+## 系统更新器api
+* **描述**：计划中的stratosphere扩展api（暂定`ams:su`），这将为自制软件提供安全安装系统升级或降级的接口。这将允许更轻松地在不同版本的操作系统之间安全转换。
+* **完成时间**：2020年6月
 
-## exosphere re-write
-* **Description**: exosphère, atmosphère's reimplementation of Horizon's Secure Monitor, was the first component authored for the project in early 2018. It is written in C, and in a style very different from the rest of atmosphère's code. In addition, exosphère was written to conform to constraints that no longer apply in an environment where it is not launched from the web browser, and where using a custom firmware image to orchestrate wake-from-sleep is possible. exosphère currently uses all but 1 KB of the space available to it, putting it at risk of breaking as future firmware updates are supported. A re-write will solve these issues.
-* **Completion Time**: June 2020
+## exosphere 重写
+* **描述**：exosphère是Atmosphère对Horizon安全监视器的重新实现，是2018年初为该项目编写的第一个组件。它用C语言编写，风格与atmosphère的其余代码大不相同。此外，exosphère编写时遵循的约束在不再从Web浏览器启动且可以使用自定义固件镜像协调唤醒的环境中不再适用。exosphère目前使用了除1KB外的所有可用空间，这使其在支持未来固件更新时有中断风险。重写将解决这些问题。
+* **完成时间**：2020年6月
 
 ## mesosphere
-* **Description**: mesosphère is a reimplementation of the Horizon operating system's Kernel. It aims to provide an open-source reference for Nintendo's code.
-* **Estimated Time**: September 2020
+* **描述**：mesosphère是Horizon操作系统内核的重新实现。它旨在为任天堂的代码提供开源参考。
+* **完成时间**：2020年9月
 
 ## ams-on-mariko
-* **Description**: Atmosphere cannot run as-is on Mariko hardware. A large number of changes are needed in many components. Although secure monitor support is complete in exosphere, additional work is needed on the bootloader and stratosphere sides as well. Mariko support will also require further design thought; atmosphere's debugging design heavily relies on reboot-to-payload and (more generally) the ability to perform warmboot bootrom hax at will. This is not possible on Mariko, and will require a new design/software support for whatever solution is chosen.
-* **Completion Time**: January 2021
+* **描述**：Atmosphere无法在Mariko硬件上按原样运行。许多组件需要大量更改。尽管exosphere中的安全监视器支持已完成，但引导加载程序和stratosphere方面还需要额外工作。Mariko支持还需要进一步的设计思考；atmosphere的调试设计严重依赖于重启到payload以及（更一般地说）能够随时执行热启动bootrom破解。这在Mariko上不可能，需要为选择的解决方案设计新的软件支持。
+* **完成时间**：2021年1月

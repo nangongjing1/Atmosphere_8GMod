@@ -1,78 +1,78 @@
-# Cheats
-Atmosphère supports Action-Replay style cheat codes, with cheats loaded off of the SD card.
+# 金手指
+Atmosphère 支持 Action-Replay 风格的金手指代码，金手指从 SD 卡加载。
 
-## Cheat Loading Process
-By default, Atmosphère will do the following when deciding whether to attach to a new application process:
+## 金手指加载流程
+默认情况下，Atmosphère 在决定是否附加到新应用程序进程时会执行以下操作：
 
-+ Retrieve information about the new application process from `pm` and `loader`.
-+ Check whether a user-defined key combination is held, and stop if not.
-  + This defaults to "L is not held", but can be configured with override keys.
-  + The ini key to configure this is `cheat_enable_key`.
-+ Check whether the process is a real application, and stop if not.
-  + This guards against applying cheat codes to the Homebrew Loader.
-+ Attempt to load cheats from `/atmosphere/contents/<program_id>/cheats/<build_id>.txt`, where `build_id` is the hexadecimal representation of the first 8 bytes of the application's main executable's build id.
-  + If no cheats are found, then the cheat manager will stop.
-+ Open a kernel debug session for the new application process.
-+ Signal to a system event that a new cheat process has been attached to.
++ 从 `pm` 和 `loader` 检索有关新应用程序进程的信息。
++ 检查用户定义的按键组合是否被按住，如果没有则停止。
+  + 默认为"未按住 L 键"，但可以通过覆盖键配置。
+  + 用于配置的 ini 键是 `cheat_enable_key`。
++ 检查进程是否为真实应用程序，如果不是则停止。
+  + 这可以防止将金手指代码应用于自制程序加载器。
++ 尝试从 `/atmosphere/contents/<program_id>/cheats/<build_id>.txt` 加载金手指，其中 `build_id` 是应用程序主可执行文件构建 ID 前 8 字节的十六进制表示。
+  + 如果未找到金手指，则金手指管理器将停止。
++ 为新应用程序进程打开内核调试会话。
++ 向系统事件发出信号，表示已附加到新的金手指进程。
 
-This behavior ensures that cheat codes are only loaded when the user would want them to.
+此行为确保金手指代码仅在用户需要时加载。
 
-In cases where `dmnt` has not activated the cheat manager, but the user wants to make it do so anyway, the cheat manager's service API provides a `ForceOpenCheatProcess` command that homebrew can use. This command will cause the cheat manager to try to force itself to attach to the process.
+在 `dmnt` 未激活金手指管理器但用户希望强制激活的情况下，金手指管理器的服务 API 提供了 `ForceOpenCheatProcess` 命令供自制程序使用。此命令将使金手指管理器尝试强制自身附加到进程。
 
-In cases where `dmnt` has activated the cheat manager, but the user wants to use an alternate debugger, the cheat manager's service API provides a `ForceCloseCheatProcess` command that homebrew can use. This command will cause the cheat manager to detach itself from the process.
+在 `dmnt` 已激活金手指管理器但用户希望使用替代调试器的情况下，金手指管理器的服务 API 提供了 `ForceCloseCheatProcess` 命令供自制程序使用。此命令将使金手指管理器从进程中分离。
 
-By default, all cheat codes listed in the loaded .txt file will be toggled on. This is configurable by the user by editing the `atmosphere!dmnt_cheats_enabled_by_default` [system setting](configurations.md).
+默认情况下，加载的 .txt 文件中列出的所有金手指代码都将启用。用户可以通过编辑 `atmosphere!dmnt_cheats_enabled_by_default` [系统设置](configurations.md) 来配置此行为。
 
-Users may use homebrew programs to toggle cheats on and off at runtime via the cheat manager's service API.
+用户可以使用自制程序通过金手指管理器的服务 API 在运行时切换金手指的启用和禁用状态。
 
-## Cheat Code Compatibility
-Atmosphère manages cheat code through the execution of a small, custom virtual machine. Care has been taken to ensure that Atmosphère's cheat code format is fully backwards compatible with the pre-existing cheat code format, though new features have been added and bugs in the pre-existing cheat code applier have been fixed. Here is a short summary of the changes from the pre-existing format:
+## 金手指代码兼容性
+Atmosphère 通过执行小型自定义虚拟机来管理金手指代码。已确保 Atmosphère 的金手指代码格式与现有金手指代码格式完全向后兼容，同时添加了新功能并修复了现有金手指代码应用器中的错误。以下是与现有格式相比的主要变更摘要：
 
-+ A number of bugs were fixed in the processing of conditional instructions.
-  + The pre-existing implementation was fundamentally broken, and checked for the wrong value when detecting the end of a conditional block.
-  + The pre-existing implementation also did not properly decode instructions, and instead linearly scanned for the terminator value. This caused problems if an instruction happened to encode a terminator inside its immediate values.
-  + The pre-existing implementation did not bounds check, and thus certain conditional cheat codes could cause it to read out-of-bounds memory, and potentially crash due to a data abort.
-+ Support was added for nesting conditional blocks.
-+ An instruction was added to perform much more complex arbitrary arithmetic on two registers.
-+ An instruction was added to allow writing the contents of register to a memory address specified by another register.
-+ The pre-existing implementation did not correctly synchronize with the application process, and thus would cause heavy lag under certain circumstances (especially around loading screens). This has been fixed in Atmosphère's implementation.
++ 修复了条件指令处理中的若干错误。
+  + 现有实现在检测条件块结束时存在根本性缺陷，检查了错误的值。
+  + 现有实现也未正确解码指令，而是线性扫描终止符值。如果指令的立即数中恰好编码了终止符，会导致问题。
+  + 现有实现未进行边界检查，因此某些条件金手指代码可能导致其读取越界内存，并可能因数据中止而崩溃。
++ 添加了对嵌套条件块的支持。
++ 添加了一条指令，用于在两个寄存器上执行更复杂的任意算术运算。
++ 添加了一条指令，允许将寄存器的内容写入由另一个寄存器指定的内存地址。
++ 现有实现未正确与应用程序进程同步，因此在某些情况下（尤其是在加载屏幕期间）会导致严重延迟。Atmosphère 的实现已修复此问题。
 
-## Cheat Code Format
-The following provides documentation of the instruction format for the virtual machine used to manage cheat codes.
+## 金手指代码格式
+以下提供了用于管理金手指代码的虚拟机指令格式文档。
 
-Typically, instruction type is encoded in the upper nybble of the first instruction u32.
+通常，指令类型编码在第一个指令 u32 的高半字节中。
 
-### Code Type 0x0: Store Static Value to Memory
-Code type 0x0 allows writing a static value to a memory address.
+### 代码类型 0x0：将静态值存储到内存
+代码类型 0x0 允许将静态值写入内存地址。
 
-#### Encoding
+#### 编码
 `0TMR00AA AAAAAAAA VVVVVVVV (VVVVVVVV)`
 
-+ T: Width of memory write (1, 2, 4, or 8 bytes).
-+ M: Memory region to write to (0 = Main NSO, 1 = Heap, 2 = Alias, 3 = Aslr, 4 = non-relative).
-+ R: Register to use as an offset from memory region base.
-+ A: Immediate offset to use from memory region base.
-+ V: Value to write.
++ T: 内存写入宽度（1、2、4 或 8 字节）。
++ M: 要写入的内存区域（0 = 主 NSO，1 = 堆，2 = 别名，3 = Aslr，4 = 非相对）。
++ R: 用作内存区域基址偏移的寄存器。
++ A: 从内存区域基址使用的立即偏移量。
++ V: 要写入的值。
 
 ---
 
-### Code Type 0x1: Begin Conditional Block
-Code type 0x1 performs a comparison of the contents of memory to a static value.
+### 代码类型 0x1：开始条件块
+代码类型 0x1 将内存内容与静态值进行比较。
 
-If the condition is not met, all instructions until the appropriate End or Else conditional block terminator are skipped.
+如果条件不满足，则跳过所有指令，直到遇到适当的中止或否则条件块终止符。
 
-#### Encoding
+#### 编码
 `1TMCXrAA AAAAAAAA VVVVVVVV (VVVVVVVV)`
 
-+ T: Width of memory read (1, 2, 4, or 8 bytes).
-+ M: Memory region to read from (0 = Main NSO, 1 = Heap, 2 = Alias, 3 = Aslr, 4 = non-relative).
-+ C: Condition to use, see below.
-+ X: Operand Type, see below.
-+ r: Offset Register (operand types 1).
-+ A: Immediate offset to use from memory region base.
-+ V: Value to compare to.
++ T: 内存读取宽度（1、2、4 或 8 字节）。
++ M: 要读取的内存区域（0 = 主 NSO，1 = 堆，2 = 别名，3 = Aslr，4 = 非相对）。
++ C: 要使用的条件，见下文。
++ X: 操作数类型，见下文。
++ r: 偏移寄存器（操作数类型 1）。
++ A: 从内存区域基址使用的立即偏移量。
++ V: 要比较的值。
 
-#### Conditions
+#### 条件
 + 1: >
 + 2: >=
 + 3: <
@@ -80,245 +80,245 @@ If the condition is not met, all instructions until the appropriate End or Else 
 + 5: ==
 + 6: !=
 
-#### Operand Type
-+ 0: Memory Base + Relative Offset
-+ 1: Memory Base + Offset Register + Relative Offset
+#### 操作数类型
++ 0: 内存基址 + 相对偏移
++ 1: 内存基址 + 偏移寄存器 + 相对偏移
 ---
 
-### Code Type 0x2: End Conditional Block
-Code type 0x2 marks the end of a conditional block (started by Code Type 0x1 or Code Type 0x8).
+### 代码类型 0x2：结束条件块
+代码类型 0x2 标记条件块的结束（由代码类型 0x1 或代码类型 0x8 启动）。
 
-When an Else is executed, all instructions until the appropriate End conditional block terminator are skipped.
+当执行否则时，将跳过所有指令，直到遇到适当的中止条件块终止符。
 
-#### Encoding
+#### 编码
 `2X000000`
 
-+ X: End type (0 = End, 1 = Else).
++ X: 结束类型（0 = 结束，1 = 否则）。
 
 ---
 
-### Code Type 0x3: Start/End Loop
-Code type 0x3 allows for iterating in a loop a fixed number of times.
+### 代码类型 0x3：开始/结束循环
+代码类型 0x3 允许在固定次数的循环中迭代。
 
-#### Start Loop Encoding
+#### 开始循环编码
 `300R0000 VVVVVVVV`
 
-+ R: Register to use as loop counter.
-+ V: Number of iterations to loop.
++ R: 用作循环计数器的寄存器。
++ V: 要循环的迭代次数。
 
-#### End Loop Encoding
+#### 结束循环编码
 `310R0000`
 
-+ R: Register to use as loop counter.
++ R: 用作循环计数器的寄存器。
 
 ---
 
-### Code Type 0x4: Load Register with Static Value
-Code type 0x4 allows setting a register to a constant value.
+### 代码类型 0x4：使用静态值加载寄存器
+代码类型 0x4 允许将寄存器设置为常量值。
 
-#### Encoding
+#### 编码
 `400R0000 VVVVVVVV VVVVVVVV`
 
-+ R: Register to use.
-+ V: Value to load.
++ R: 要使用的寄存器。
++ V: 要加载的值。
 
 ---
 
-### Code Type 0x5: Load Register with Memory Value
-Code type 0x5 allows loading a value from memory into a register, either using a fixed address or by dereferencing the destination register.
+### 代码类型 0x5：使用内存值加载寄存器
+代码类型 0x5 允许将值从内存加载到寄存器中，可以使用固定地址，也可以通过解引用目标寄存器实现。
 
-#### Load From Fixed Address Encoding
+#### 从固定地址加载编码
 `5TMR00AA AAAAAAAA`
 
-+ T: Width of memory read (1, 2, 4, or 8 bytes).
-+ M: Memory region to write to (0 = Main NSO, 1 = Heap, 2 = Alias, 3 = Aslr, 4 = non-relative).
-+ R: Register to load value into.
-+ A: Immediate offset to use from memory region base.
++ T: 内存读取宽度（1、2、4 或 8 字节）。
++ M: 要写入的内存区域（0 = 主 NSO，1 = 堆，2 = 别名，3 = Aslr，4 = 非相对）。
++ R: 要加载值的寄存器。
++ A: 从内存区域基址使用的立即偏移量。
 
-#### Load from Register Address Encoding
+#### 从寄存器地址加载编码
 `5T0R10AA AAAAAAAA`
 
-+ T: Width of memory read (1, 2, 4, or 8 bytes).
-+ R: Register to load value into. (This register is also used as the base memory address).
-+ A: Immediate offset to use from register R.
++ T: 内存读取宽度（1、2、4 或 8 字节）。
++ R: 要加载值的寄存器。（此寄存器也用作基础内存地址）。
++ A: 从寄存器 R 使用的立即偏移量。
 
-#### Load from Register Address Encoding
+#### 从寄存器地址加载编码
 `5T0R2SAA AAAAAAAA`
 
-+ T: Width of memory read (1, 2, 4, or 8 bytes).
-+ R: Register to load value into. 
-+ S: Register to use as the base memory address.
-+ A: Immediate offset to use from register R.
++ T: 内存读取宽度（1、2、4 或 8 字节）。
++ R: 要加载值的寄存器。 
++ S: 用作基础内存地址的寄存器。
++ A: 从寄存器 R 使用的立即偏移量。
 
-#### Load From Fixed Address Encoding with offset register
+#### 带偏移寄存器的固定地址加载编码
 `5TMR3SAA AAAAAAAA`
 
-+ T: Width of memory read (1, 2, 4, or 8 bytes).
-+ M: Memory region to write to (0 = Main NSO, 1 = Heap, 2 = Alias, 3 = Aslr, 4 = non-relative).
-+ R: Register to load value into.
-+ S: Register to use as offset register.
-+ A: Immediate offset to use from memory region base.
++ T: 内存读取宽度（1、2、4 或 8 字节）。
++ M: 要写入的内存区域（0 = 主 NSO，1 = 堆，2 = 别名，3 = Aslr，4 = 非相对）。
++ R: 要加载值的寄存器。
++ S: 用作偏移寄存器的寄存器。
++ A: 从内存区域基址使用的立即偏移量。
 ---
 
-### Code Type 0x6: Store Static Value to Register Memory Address
-Code type 0x6 allows writing a fixed value to a memory address specified by a register.
+### 代码类型 0x6：将静态值存储到寄存器内存地址
+代码类型 0x6 允许将固定值写入由寄存器指定的内存地址。
 
-#### Encoding
+#### 编码
 `6T0RIor0 VVVVVVVV VVVVVVVV`
 
-+ T: Width of memory write (1, 2, 4, or 8 bytes).
-+ R: Register used as base memory address.
-+ I: Increment register flag (0 = do not increment R, 1 = increment R by T).
-+ o: Offset register enable flag (0 = do not add r to address, 1 = add r to address).
-+ r: Register used as offset when o is 1.
-+ V: Value to write to memory.
++ T: 内存写入宽度（1、2、4 或 8 字节）。
++ R: 用作基础内存地址的寄存器。
++ I: 递增寄存器标志（0 = 不递增 R，1 = 将 R 递增 T）。
++ o: 偏移寄存器启用标志（0 = 不将 r 添加到地址，1 = 将 r 添加到地址）。
++ r: 当 o 为 1 时用作偏移的寄存器。
++ V: 要写入内存的值。
 
 ---
 
-### Code Type 0x7: Legacy Arithmetic
-Code type 0x7 allows performing arithmetic on registers.
+### 代码类型 0x7：传统算术
+代码类型 0x7 允许对寄存器执行算术运算。
 
-However, it has been deprecated by Code type 0x9, and is only kept for backwards compatibility.
+然而，它已被代码类型 0x9 弃用，仅保留用于向后兼容。
 
-#### Encoding
+#### 编码
 `7T0RC000 VVVVVVVV`
 
-+ T: Width of arithmetic operation (1, 2, 4, or 8 bytes).
-+ R: Register to apply arithmetic to.
-+ C: Arithmetic operation to apply, see below.
-+ V: Value to use for arithmetic operation.
++ T: 算术运算宽度（1、2、4 或 8 字节）。
++ R: 要应用算术运算的寄存器。
++ C: 要应用的算术运算，见下文。
++ V: 用于算术运算的值。
 
-#### Arithmetic Types
-+ 0: Addition
-+ 1: Subtraction
-+ 2: Multiplication
-+ 3: Left Shift
-+ 4: Right Shift
+#### 算术类型
++ 0: 加法
++ 1: 减法
++ 2: 乘法
++ 3: 左移
++ 4: 右移
 
 ---
 
-### Code Type 0x8: Begin Keypress Conditional Block
-Code type 0x8 enters or skips a conditional block based on whether a key combination is pressed.
+### 代码类型 0x8：开始按键条件块
+代码类型 0x8 根据是否按下按键组合进入或跳过条件块。
 
-#### Encoding
+#### 编码
 `8kkkkkkk`
 
-+ k: Keypad mask to check against, see below.
++ k: 要检查的键位掩码，见下文。
 
-Note that for multiple button combinations, the bitmasks should be ORd together.
+注意：对于多个按钮组合，位掩码应进行 OR 运算。
 
-#### Keypad Values
-Note: This is the direct output of `hidKeysDown()`.
+#### 键位值
+注意：这是 `hidKeysDown()` 的直接输出。
 
 + 0000001: A
 + 0000002: B
 + 0000004: X
 + 0000008: Y
-+ 0000010: Left Stick Pressed
-+ 0000020: Right Stick Pressed
++ 0000010: 左摇杆按下
++ 0000020: 右摇杆按下
 + 0000040: L
 + 0000080: R
 + 0000100: ZL
 + 0000200: ZR
-+ 0000400: Plus
-+ 0000800: Minus
-+ 0001000: Left
-+ 0002000: Up
-+ 0004000: Right
-+ 0008000: Down
-+ 0010000: Left Stick Left
-+ 0020000: Left Stick Up
-+ 0040000: Left Stick Right
-+ 0080000: Left Stick Down
-+ 0100000: Right Stick Left
-+ 0200000: Right Stick Up
-+ 0400000: Right Stick Right
-+ 0800000: Right Stick Down
++ 0000400: 加号
++ 0000800: 减号
++ 0001000: 左
++ 0002000: 上
++ 0004000: 右
++ 0008000: 下
++ 0010000: 左摇杆左
++ 0020000: 左摇杆上
++ 0040000: 左摇杆右
++ 0080000: 左摇杆下
++ 0100000: 右摇杆左
++ 0200000: 右摇杆上
++ 0400000: 右摇杆右
++ 0800000: 右摇杆下
 + 1000000: SL
 + 2000000: SR
 
 ---
 
-### Code Type 0x9: Perform Arithmetic
-Code type 0x9 allows performing arithmetic on registers.
+### 代码类型 0x9：执行算术运算
+代码类型 0x9 允许对寄存器执行算术运算。
 
-#### Register Arithmetic Encoding
+#### 寄存器算术编码
 `9TCRS0s0`
 
-+ T: Width of arithmetic operation (1, 2, 4, or 8 bytes).
-+ C: Arithmetic operation to apply, see below.
-+ R: Register to store result in.
-+ S: Register to use as left-hand operand.
-+ s: Register to use as right-hand operand.
++ T: 算术运算宽度（1、2、4 或 8 字节）。
++ C: 要应用的算术运算，见下文。
++ R: 存储结果的寄存器。
++ S: 用作左操作数的寄存器。
++ s: 用作右操作数的寄存器。
 
-#### Immediate Value Arithmetic Encoding
+#### 立即值算术编码
 `9TCRS100 VVVVVVVV (VVVVVVVV)`
 
-+ T: Width of arithmetic operation (1, 2, 4, or 8 bytes).
-+ C: Arithmetic operation to apply, see below.
-+ R: Register to store result in.
-+ S: Register to use as left-hand operand.
-+ V: Value to use as right-hand operand.
++ T: 算术运算宽度（1、2、4 或 8 字节）。
++ C: 要应用的算术运算，见下文。
++ R: 存储结果的寄存器。
++ S: 用作左操作数的寄存器。
++ V: 用作右操作数的值。
 
-#### Arithmetic Types
-+ 0: Addition
-+ 1: Subtraction
-+ 2: Multiplication
-+ 3: Left Shift
-+ 4: Right Shift
-+ 5: Logical And
-+ 6: Logical Or
-+ 7: Logical Not (discards right-hand operand)
-+ 8: Logical Xor
-+ 9: None/Move (discards right-hand operand)
-+ 10: Float Addition, T==4 single T==8 double
-+ 11: Float Subtraction, T==4 single T==8 double
-+ 12: Float Multiplication, T==4 single T==8 double
-+ 13: Float Division, T==4 single T==8 double
+#### 算术类型
++ 0: 加法
++ 1: 减法
++ 2: 乘法
++ 3: 左移
++ 4: 右移
++ 5: 逻辑与
++ 6: 逻辑或
++ 7: 逻辑非（忽略右操作数）
++ 8: 逻辑异或
++ 9: 无/移动（忽略右操作数）
++ 10: 浮点加法，T==4 单精度 T==8 双精度
++ 11: 浮点减法，T==4 单精度 T==8 双精度
++ 12: 浮点乘法，T==4 单精度 T==8 双精度
++ 13: 浮点除法，T==4 单精度 T==8 双精度
 ---
 
-### Code Type 0xA: Store Register to Memory Address
-Code type 0xA allows writing a register to memory.
+### 代码类型 0xA：将寄存器存储到内存地址
+代码类型 0xA 允许将寄存器写入内存。
 
-#### Encoding
+#### 编码
 `ATSRIOxa (aaaaaaaa)`
 
-+ T: Width of memory write (1, 2, 4, or 8 bytes).
-+ S: Register to write to memory.
-+ R: Register to use as base address.
-+ I: Increment register flag (0 = do not increment R, 1 = increment R by T).
-+ O: Offset type, see below.
-+ x: Register used as offset when O is 1, Memory type when O is 3, 4 or 5.
-+ a: Value used as offset when O is 2, 4 or 5.
++ T: 内存写入宽度（1、2、4 或 8 字节）。
++ S: 要写入内存的寄存器。
++ R: 用作基地址的寄存器。
++ I: 递增寄存器标志（0 = 不递增 R，1 = 将 R 递增 T）。
++ O: 偏移类型，见下文。
++ x: 当 O 为 1 时用作偏移的寄存器，当 O 为 3、4 或 5 时为内存类型。
++ a: 当 O 为 2、4 或 5 时用作偏移的值。
 
-#### Offset Types
-+ 0: No Offset
-+ 1: Use Offset Register
-+ 2: Use Fixed Offset
-+ 3: Memory Region + Base Register
-+ 4: Memory Region + Relative Address (ignore address register)
-+ 5: Memory Region + Relative Address + Offset Register
-
----
-
-### Code Type 0xB: Reserved
-Code Type 0xB is currently reserved for future use.
+#### 偏移类型
++ 0: 无偏移
++ 1: 使用偏移寄存器
++ 2: 使用固定偏移
++ 3: 内存区域 + 基址寄存器
++ 4: 内存区域 + 相对地址（忽略地址寄存器）
++ 5: 内存区域 + 相对地址 + 偏移寄存器
 
 ---
 
-### Code Type 0xC-0xF: Extended-Width Instruction
-Code Types 0xC-0xF signal to the VM to treat the upper two nybbles of the first dword as instruction type, instead of just the upper nybble.
-
-This reserves an additional 64 opcodes for future use.
+### 代码类型 0xB：保留
+代码类型 0xB 目前保留供将来使用。
 
 ---
 
-### Code Type 0xC0: Begin Register Conditional Block
-Code type 0xC0 performs a comparison of the contents of a register and another value. This code support multiple operand types, see below.
+### 代码类型 0xC-0xF：扩展宽度指令
+代码类型 0xC-0xF 指示虚拟机将第一个双字的高两个半字节视为指令类型，而不仅仅是高半字节。
 
-If the condition is not met, all instructions until the appropriate conditional block terminator are skipped.
+这为将来使用保留了额外的 64 个操作码。
 
-#### Encoding
+---
+
+### 代码类型 0xC0：开始寄存器条件块
+代码类型 0xC0 将寄存器的内容与另一个值进行比较。此代码支持多种操作数类型，见下文。
+
+如果条件不满足，则跳过所有指令，直到遇到适当的条件块终止符。
+
+#### 编码
 ```
 C0TcSX##
 C0TcS0Ma aaaaaaaa
@@ -329,26 +329,26 @@ C0TcS400 VVVVVVVV (VVVVVVVV)
 C0TcS5X0
 ```
 
-+ T: Width of memory write (1, 2, 4, or 8 bytes).
-+ c: Condition to use, see below.
-+ S: Source Register.
-+ X: Operand Type, see below.
-+ M: Memory Type (operand types 0 and 1).
-+ R: Address Register (operand types 2 and 3).
-+ a: Relative Address (operand types 0 and 2).
-+ r: Offset Register (operand types 1 and 3).
-+ X: Other Register (operand type 5).
-+ V: Value to compare to (operand type 4).
++ T: 内存写入宽度（1、2、4 或 8 字节）。
++ c: 要使用的条件，见下文。
++ S: 源寄存器。
++ X: 操作数类型，见下文。
++ M: 内存类型（操作数类型 0 和 1）。
++ R: 地址寄存器（操作数类型 2 和 3）。
++ a: 相对地址（操作数类型 0 和 2）。
++ r: 偏移寄存器（操作数类型 1 和 3）。
++ X: 其他寄存器（操作数类型 5）。
++ V: 要比较的值（操作数类型 4）。
 
-#### Operand Type
-+ 0: Memory Base + Relative Offset
-+ 1: Memory Base + Offset Register
-+ 2: Register + Relative Offset
-+ 3: Register + Offset Register
-+ 4: Static Value
-+ 5: Other Register
+#### 操作数类型
++ 0: 内存基址 + 相对偏移
++ 1: 内存基址 + 偏移寄存器
++ 2: 寄存器 + 相对偏移
++ 3: 寄存器 + 偏移寄存器
++ 4: 静态值
++ 5: 其他寄存器
 
-#### Conditions
+#### 条件
 + 1: >
 + 2: >=
 + 3: <
@@ -358,134 +358,134 @@ C0TcS5X0
 
 ---
 
-### Code Type 0xC1: Save or Restore Register
-Code type 0xC1 performs saving or restoring of registers.
+### 代码类型 0xC1：保存或恢复寄存器
+代码类型 0xC1 执行寄存器的保存或恢复。
 
-#### Encoding
+#### 编码
 `C10D0Sx0`
 
-+ D: Destination index.
-+ S: Source index.
-+ x: Operand Type, see below.
++ D: 目标索引。
++ S: 源索引。
++ x: 操作数类型，见下文。
 
-#### Operand Type
-+ 0: Restore register
-+ 1: Save register
-+ 2: Clear saved value
-+ 3: Clear register
+#### 操作数类型
++ 0: 恢复寄存器
++ 1: 保存寄存器
++ 2: 清除保存的值
++ 3: 清除寄存器
 
 ---
 
-### Code Type 0xC2: Save or Restore Register with Mask
-Code type 0xC2 performs saving or restoring of multiple registers using a bitmask.
+### 代码类型 0xC2：使用掩码保存或恢复寄存器
+代码类型 0xC2 使用位掩码保存或恢复多个寄存器。
 
-#### Encoding
+#### 编码
 `C2x0XXXX`
 
-+ x: Operand Type, see below.
-+ X: 16-bit bitmask, bit i == save or restore register i.
++ x: 操作数类型，见下文。
++ X: 16 位位掩码，位 i == 保存或恢复寄存器 i。
 
-#### Operand Type
-+ 0: Restore register
-+ 1: Save register
-+ 2: Clear saved value
-+ 3: Clear register
+#### 操作数类型
++ 0: 恢复寄存器
++ 1: 保存寄存器
++ 2: 清除保存的值
++ 3: 清除寄存器
 
 ---
 
-### Code Type 0xC3: Read or Write Static Register
-Code type 0xC3 reads or writes a static register with a given register.
+### 代码类型 0xC3：读取或写入静态寄存器
+代码类型 0xC3 使用给定寄存器读取或写入静态寄存器。
 
-#### Encoding
+#### 编码
 `C3000XXx`
 
-+ XX: Static register index, 0x00 to 0x7F for reading or 0x80 to 0xFF for writing.
-+ x: Register index.
++ XX: 静态寄存器索引，0x00 到 0x7F 用于读取，0x80 到 0xFF 用于写入。
++ x: 寄存器索引。
 
 ---
 
-### Code Type 0xC4: Begin Extended Keypress Conditional Block
-Code type 0xC4 enters or skips a conditional block based on whether a key combination is pressed.
+### 代码类型 0xC4：开始扩展按键条件块
+代码类型 0xC4 根据是否按下按键组合进入或跳过条件块。
 
-#### Encoding
+#### 编码
 `C4r00000 kkkkkkkk kkkkkkkk`
 
-+ r: Auto-repeat, see below.
-+ kkkkkkkkkk: Keypad mask to check against output of `hidKeysDown()`.
++ r: 自动重复，见下文。
++ kkkkkkkkkk: 要检查的键位掩码，对应 `hidKeysDown()` 的输出。
 
-Note that for multiple button combinations, the bitmasks should be OR'd together.
+注意：对于多个按钮组合，位掩码应进行 OR 运算。
 
-#### Auto-repeat
+#### 自动重复
 
-+ 0: The conditional block executes only once when the keypad mask matches. The mask must stop matching to reset for the next trigger.
-+ 1: The conditional block executes as long as the keypad mask matches.
++ 0: 条件块仅在键位掩码匹配时执行一次。掩码必须停止匹配才能重置以进行下一次触发。
++ 1: 只要键位掩码匹配，条件块就会执行。
 
-#### Keypad Values
-Note: This is the direct output of `hidKeysDown()`.
+#### 键位值
+注意：这是 `hidKeysDown()` 的直接输出。
 
 + 00000000 00000001: A
 + 00000000 00000002: B
 + 00000000 00000004: X
 + 00000000 00000008: Y
-+ 00000000 00000010: Left Stick Pressed
-+ 00000000 00000020: Right Stick Pressed
++ 00000000 00000010: 左摇杆按下
++ 00000000 00000020: 右摇杆按下
 + 00000000 00000040: L
 + 00000000 00000080: R
 + 00000000 00000100: ZL
 + 00000000 00000200: ZR
-+ 00000000 00000400: Plus
-+ 00000000 00000800: Minus
-+ 00000000 00001000: Left
-+ 00000000 00002000: Up
-+ 00000000 00004000: Right
-+ 00000000 00008000: Down
-+ 00000000 00010000: Left Stick Left
-+ 00000000 00020000: Left Stick Up
-+ 00000000 00040000: Left Stick Right
-+ 00000000 00080000: Left Stick Down
-+ 00000000 00100000: Right Stick Left
-+ 00000000 00200000: Right Stick Up
-+ 00000000 00400000: Right Stick Right
-+ 00000000 00800000: Right Stick Down
-+ 00000000 01000000: SL Left Joy-Con
-+ 00000000 02000000: SR Left Joy-Con
-+ 00000000 04000000: SL Right Joy-Con
-+ 00000000 08000000: SR Right Joy-Con
-+ 00000000 10000000: Top button on Poké Ball Plus (Palma) controller
-+ 00000000 20000000: Verification
-+ 00000000 40000000: B button on Left NES/HVC controller in Handheld mode
-+ 00000000 80000000: Left C button in N64 controller
-+ 00000001 00000000: Up C button in N64 controller
-+ 00000002 00000000: Right C button in N64 controller
-+ 00000004 00000000: Down C button in N64 controller
++ 00000000 00000400: 加号
++ 00000000 00000800: 减号
++ 00000000 00001000: 左
++ 00000000 00002000: 上
++ 00000000 00004000: 右
++ 00000000 00008000: 下
++ 00000000 00010000: 左摇杆左
++ 00000000 00020000: 左摇杆上
++ 00000000 00040000: 左摇杆右
++ 00000000 00080000: 左摇杆下
++ 00000000 00100000: 右摇杆左
++ 00000000 00200000: 右摇杆上
++ 00000000 00400000: 右摇杆右
++ 00000000 00800000: 右摇杆下
++ 00000000 01000000: 左 Joy-Con 的 SL
++ 00000000 02000000: 左 Joy-Con 的 SR
++ 00000000 04000000: 右 Joy-Con 的 SL
++ 00000000 08000000: 右 Joy-Con 的 SR
++ 00000000 10000000: Poké Ball Plus (Palma) 控制器上的顶部按钮
++ 00000000 20000000: 验证
++ 00000000 40000000: 手持模式下左侧 NES/HVC 控制器上的 B 按钮
++ 00000000 80000000: N64 控制器上的左 C 按钮
++ 00000001 00000000: N64 控制器上的上 C 按钮
++ 00000002 00000000: N64 控制器上的右 C 按钮
++ 00000004 00000000: N64 控制器上的下 C 按钮
 
-### Code Type 0xF0: Double Extended-Width Instruction
-Code Type 0xF0 signals to the VM to treat the upper three nybbles of the first dword as instruction type, instead of just the upper nybble.
+### 代码类型 0xF0：双倍扩展宽度指令
+代码类型 0xF0 指示虚拟机将第一个双字的高三个半字节视为指令类型，而不仅仅是高半字节。
 
-This reserves an additional 16 opcodes for future use.
+这为将来使用保留了额外的 16 个操作码。
 
 ---
 
-### Code Type 0xFF0: Pause Process
-Code type 0xFF0 pauses the current process.
+### 代码类型 0xFF0：暂停进程
+代码类型 0xFF0 暂停当前进程。
 
-#### Encoding
+#### 编码
 `FF0?????`
 
 ---
 
-### Code Type 0xFF1: Resume Process
-Code type 0xFF1 resumes the current process.
+### 代码类型 0xFF1：恢复进程
+代码类型 0xFF1 恢复当前进程。
 
-#### Encoding
+#### 编码
 `FF1?????`
 
 ---
 
-### Code Type 0xFFF: Debug Log
-Code type 0xFFF writes a debug log to the SD card under the folder `/atmosphere/cheat_vm_logs/`.
+### 代码类型 0xFFF：调试日志
+代码类型 0xFFF 将调试日志写入 SD 卡上的 `/atmosphere/cheat_vm_logs/` 文件夹。
 
-#### Encoding
+#### 编码
 ```
 FFFTIX##
 FFFTI0Ma aaaaaaaa
@@ -495,18 +495,18 @@ FFFTI3Rr
 FFFTI4X0
 ```
 
-+ T: Width of memory write (1, 2, 4, or 8 bytes).
-+ I: Log id.
-+ X: Operand Type, see below.
-+ M: Memory Type (operand types 0 and 1).
-+ R: Address Register (operand types 2 and 3).
-+ a: Relative Address (operand types 0 and 2).
-+ r: Offset Register (operand types 1 and 3).
-+ X: Value Register (operand type 4).
++ T: 内存写入宽度（1、2、4 或 8 字节）。
++ I: 日志 ID。
++ X: 操作数类型，见下文。
++ M: 内存类型（操作数类型 0 和 1）。
++ R: 地址寄存器（操作数类型 2 和 3）。
++ a: 相对地址（操作数类型 0 和 2）。
++ r: 偏移寄存器（操作数类型 1 和 3）。
++ X: 值寄存器（操作数类型 4）。
 
-#### Operand Type
-+ 0: Memory Base + Relative Offset
-+ 1: Memory Base + Offset Register
-+ 2: Register + Relative Offset
-+ 3: Register + Offset Register
-+ 4: Register Value
+#### 操作数类型
++ 0: 内存基址 + 相对偏移
++ 1: 内存基址 + 偏移寄存器
++ 2: 寄存器 + 相对偏移
++ 3: 寄存器 + 偏移寄存器
++ 4: 寄存器值

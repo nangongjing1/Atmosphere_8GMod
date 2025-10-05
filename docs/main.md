@@ -1,8 +1,8 @@
 # Atmosphère
-Atmosphère is a work-in-progress customized firmware for the Nintendo Switch. Its design principle consists of a multi-layered approach where each layer replaces/modifies a different component of the Nintendo Switch's system.
+Atmosphère是任天堂Switch的定制固件，目前仍在开发中。其设计原则采用多层方法，每层替换/修改任天堂Switch系统的不同组件。
 
-## Components
-Atmosphère provides six core components, mimicking to some degree the various layers of the Earth's atmosphere:
+## 组件
+Atmosphère提供六个核心组件，在某种程度上模拟了地球大气的各个层次：
 + [fusée](components/fusee.md)
 + [exosphère](components/exosphere.md)
 + [thermosphère](components/thermosphere.md)
@@ -10,23 +10,23 @@ Atmosphère provides six core components, mimicking to some degree the various l
 + [stratosphère](components/stratosphere.md)
 + [troposphère](components/troposphere.md)
 
-Additionally, Atmosphère also provides the following secondary components:
+此外，Atmosphère还提供以下次要组件：
 + [emummc](components/emummc.md)
 + [libraries](components/libraries.md)
 
-## Features
-Atmosphère provides several original features which add or expand functionalities for the customized firmware environment:
-+ [Cheats](features/cheats.md)
-+ [Configurations](features/configurations.md)
+## 功能
+Atmosphère提供多项原创功能，为定制固件环境增加或扩展了功能：
++ [金手指](features/cheats.md)
++ [配置](features/configurations.md)
 
-## Building Atmosphère
-A guide to building Atmosphère can be found [here](building.md).
+## 构建Atmosphère
+构建Atmosphère的指南可在此处找到[building.md](building.md)。
 
-## Upcoming Features
-A list of planned features for Atmosphère can be found [here](roadmap.md).
+## 即将推出的功能
+Atmosphère计划功能的列表可在此处找到[roadmap.md](roadmap.md)。
 
-## Release History
-A changelog of previous versions of Atmosphère can be found [here](changelog.md).
+## 发布历史
+以前版本Atmosphère的更新日志可在此处找到[changelog.md](changelog.md)。
 
-## Frequently Asked Questions
-Answers to one or more frequently asked questions may be found [here](faq.md).
+## 常见问题解答
+一个或多个常见问题的答案可在此处找到[faq.md](faq.md)。

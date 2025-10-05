@@ -1,4 +1,4 @@
 # fatal
-This module is a reimplementation of the Horizon OS's `fatal` system module, which is responsible for managing fatal reports.
+该模块是 Horizon OS 中 `fatal` 系统模块的重新实现，负责管理致命错误报告。
 
-Atmosphère's reimplementation prevents error report creation and draws a custom error screen, showing registers and a backtrace. It also attempts to gather debugging info for any and all crashes and tries to save reports to the SD card under the folder `/atmosphere/fatal_reports/`.
+Atmosphère 的重新实现会阻止错误报告创建，并绘制一个自定义错误屏幕，显示寄存器和回溯信息。它还会尝试收集任何和所有崩溃的调试信息，并尝试将报告保存到 SD 卡的 `/atmosphere/fatal_reports/` 文件夹下。

@@ -1,4 +1,4 @@
 # creport
-This module is a reimplementation of the Horizon OS's `creport` system module, which is responsible for managing crash reports.
+该模块是 Horizon OS 中 `creport` 系统模块的重新实现，负责管理崩溃报告。
 
-Atmosphère's reimplementation redirects writing of generated crash reports to the SD card under the folder `/atmosphere/crash_reports/`. It also prevents the automatic uploading of said crash reports.
+Atmosphère 的重新实现将生成的崩溃报告重定向写入到 SD 卡的 `/atmosphere/crash_reports/` 文件夹下，并阻止自动上传这些崩溃报告。

@@ -1,16 +1,16 @@
 # ro
-This module is a reimplementation of the Horizon OS's `ro` system module, which is responsible for loading dynamic libraries and was introduced by firmware version `3.0.0`.
+该模块是对 Horizon OS 的 `ro` 系统模块的重新实现，负责加载动态库，并在固件版本 `3.0.0` 中引入。
 
-Atmosphère's reimplementation backports this module's functionalities to firmware versions lower than `3.0.0` where said functionalities were provided by the `ldr` system module instead.
+Atmosphère 的重新实现将该模块的功能向后移植到低于 `3.0.0` 的固件版本，在这些版本中，相关功能由 `ldr` 系统模块提供。
 
-## Extensions
-Atmosphère extends this module to allow libraries to be patched by files stored on the SD card.
+## 扩展功能
+Atmosphère 扩展了此模块，允许通过存储在 SD 卡上的文件对库进行补丁。
 
-### NRO Patching
-When an NRO is loaded, Atmosphère's reimplementation will search for IPS patch files on the SD card in the following locations.
+### NRO 补丁
+当加载 NRO 时，Atmosphère 的重新实现将在 SD 卡的以下位置搜索 IPS 补丁文件：
 ```
-/atmosphere/nro_patches/<patchset name>/<nro build id>.ips
+/atmosphere/nro_patches/<补丁集名称>/<nro build id>.ips
 ```
-This organization allows patch sets affecting multiple NROs to be distributed as a single directory. Patches will be searched for in each patch set directory. The name of each patch file should match the hexadecimal build ID of the NRO to affect, except that trailing zero bytes may be left off. Because the NRO build ID is unique for every NRO, this means patches will only apply to the files they are meant to apply to.
+这种组织方式允许影响多个 NRO 的补丁集以单个目录形式分发。将在每个补丁集目录中搜索补丁。每个补丁文件的名称应与目标 NRO 的十六进制构建 ID 匹配，但可以省略尾部的零字节。由于每个 NRO 的构建 ID 都是唯一的，这意味着补丁只会应用于它们预期的文件。
 
-Patch files are accepted in either IPS format or IPS32 format.
+补丁文件接受 IPS 格式或 IPS32 格式。

@@ -1,2 +1,2 @@
 # spl
-This module is a reimplementation of the Horizon OS's `spl` system module, which is responsible for providing secure platform services such as cryptographic operations.
+该模块是对 Horizon OS 的 `spl` 系统模块的重新实现，负责提供安全平台服务，例如加密操作。

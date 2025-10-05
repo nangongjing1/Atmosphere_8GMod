@@ -1,18 +1,18 @@
-# Frequently Asked Questions
+# 常见问题解答
 
-This document serves as a place to store answers for common questions received about Atmosphère.
+本文档用于存储关于Atmosphère的常见问题解答。
+     
+## "June 15th"是什么意思？
+当Atmosphère在2018年2月开始开发时，"6月15日"被设定为首次发布的预估/目标日期，以配合计划中的漏洞披露。
 
-## What does "June 15th" mean?
-When Atmosphère began development in February 2018, "June 15" was given as the estimate/target date for a first release, to coincide with the planned disclosure of a vulnerability.
+这个截止日期被错过了，而且错过得很彻底。
 
-This deadline was missed, hard.
+人们因此（对SciresM）开了很多玩笑。
 
-People made rather a lot of fun of me (SciresM) for this.
+几个月后，当Atmosphère首次发布时，我将其标注为"Happy June 15th!"，假装没有错过最初的截止日期。
 
-Several months later, when the first Atmosphère release occurred, I captioned it "Happy June 15th!" and pretended like I hadn't missed the first deadline.
+这让我觉得很有趣，因此这个做法在之后的每个版本中都保留了下来。
 
-This amused me a lot, and so the practice has been kept up for every single release since.
+根据你问的人不同，可能会被告知这是个愚蠢的笑话，一点也不好笑。
 
-Depending on who you ask, you may be told that this is a dumb joke and it is not funny.
-
-This is incorrect. It is definitely a dumb joke, but it is also hilarious.
+这种说法是不正确的。它确实是个愚蠢的笑话，但也确实很搞笑。

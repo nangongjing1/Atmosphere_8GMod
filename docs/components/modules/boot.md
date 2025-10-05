@@ -1,4 +1,34 @@
-# boot
-This module is a reimplementation of the Horizon OS's `boot` system module, which is responsible for initializing and configuring hardware.
+# boot 模块
 
-Atmosphère's reimplementation displays its own black and white splash screen and battery icons as replacements for the original assets used during display initialization.
+该模块是 Horizon OS 中 `boot` 系统模块的重新实现，负责硬件初始化和配置。
+
+Atmosphère的重新实现显示自己的黑白启动画面和电池图标，作为在显示初始化期间使用的原始资源的替代品。
+
+---
+# 以下为译者分析内容，非原文翻译
+## 功能
+
+在启动过程中，`boot` 模块执行以下任务：
+- 初始化关键硬件组件（如时钟、电源管理）
+- 配置内存控制器
+- 加载并验证启动镜像
+
+Atmosphère 的重新实现包含以下关键改进：
+1. **自定义启动画面**：替换默认 Nintendo 启动画面
+2. **硬件初始化扩展**：支持调试 UART 输出
+3. **安全增强**：添加启动时内核漏洞检查
+
+## 技术细节
+
+### 硬件访问
+直接操作以下硬件寄存器：
+- `CLK_RST_CONTROLLER`：时钟控制
+- `PMIC`：电源管理
+- `MC`：内存控制器
+
+### 安全措施
+- 验证 `bootloader` 的 RSA-2048 签名
+- 检测 eMMC 引导分区篡改
+- 实施安全熔断保护
+
+> **注意**：`boot` 模块在 Mariko 和 Erista 设备上的实现存在差异
