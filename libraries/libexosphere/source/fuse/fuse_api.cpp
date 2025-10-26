@@ -101,6 +101,8 @@ namespace ams::fuse {
                 case 15:
                 case 25 ... 27:
                 case 29 ... 34:
+                    return 18;
+
                 default:
                     return dramid;
             }
