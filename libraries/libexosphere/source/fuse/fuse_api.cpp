@@ -76,36 +76,9 @@ namespace ams::fuse {
             constexpr auto DramId1Shift = 0;
             constexpr auto DramId2Shift = OdmWord4::DramId1::Count + DramId1Shift;
 
-            int dramid = (odm_word4.Get<OdmWord4::DramId1>() << DramId1Shift) |
+
+            return (odm_word4.Get<OdmWord4::DramId1>() << DramId1Shift) |
                    (odm_word4.Get<OdmWord4::DramId2>() << DramId2Shift);
-            switch (dramid)
-            {
-                case 3:
-                case 5:
-                case 6:
-                case 17:
-                case 19:
-                case 21:
-                case 22:
-                    return 23;
-
-                case 8:
-                case 12:
-                case 20:
-                case 24:
-                    return 28;
-
-                case 10:
-                case 11:
-                case 14:
-                case 15:
-                case 25 ... 27:
-                case 29 ... 34:
-                    return 18;
-
-                default:
-                    return dramid;
-            }
         }
 
         constinit uintptr_t g_register_address = secmon::MemoryRegionPhysicalDeviceFuses.GetAddress();
@@ -349,7 +322,7 @@ namespace ams::fuse {
 
     DramId GetDramId() {
         /* Get the value. */
-        return static_cast<DramId>(GetDramIdValue(util::BitPack32{GetCommonOdmWord(4)}));
+        return static_cast<DramId>(28);
     }
 
     HardwareType GetHardwareType() {
