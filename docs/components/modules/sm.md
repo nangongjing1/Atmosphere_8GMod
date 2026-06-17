@@ -44,3 +44,4 @@ interface ams::sm::ManagerService is sm:m {
   [65001] AtmosphereHasMitm(ServiceName service) -> sf::Out<bool> out;
   [65002] AtmosphereRegisterProcess(os::ProcessId process_id, ncm::ProgramId program_id, cfg::OverrideStatus override_status, sf::InBuffer &acid_sac, sf::InBuffer &aci_sac);
 }
+```
